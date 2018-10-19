@@ -1,0 +1,47 @@
+.breakAll{
+  -ms-word-break:break-all;
+  word-break:break-all;
+}
+.relative {
+  position: relative !important;
+}
+.positonLeft{
+  position: relative;
+  left: 0px;
+}
+.positonRight{
+  position: relative;
+  right: 0px;
+}
+.floatRight{
+  float: right;
+}
+.messageBox li{
+  padding: 10px 0px;
+}
+.messagePic{
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto;
+}
+.myTime{
+  background: #DADADA;
+  color: white;
+  border-radius: 3px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+.lineHeight30{
+  line-height:30px!important;
+}
+li{
+  list-style: none
+}
+.bg{
+  background: rgb(243,249,249);
+}
+.mt-6{
+  margin-top: 6px !important;
+}

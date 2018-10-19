@@ -1,0 +1,96 @@
+<!--页面头部信息 begin-->
+<div class="content-heading pb-5">
+  <div class="pull-left">
+    <p>{{'msgorder.msgorder.goodsOrder'|translate}}</p>
+    <p class="font12 mt-5 text-muted">{{'msgorder.msgorder.goodsOrderInfo'|translate}}</p>
+  </div>
+  <div class="clear"></div>
+</div>
+<!--页面头部信息 end-->
+
+<!--搜索 begin-->
+<div class="panel p">
+  <fieldset class="mb-5 pb-5">
+    <label class="col-sm-2 control-label height-35">{{'msgorder.msgorder.state'|translate}}：</label>
+    <div class="col-sm-4">
+      <select class="form-control" [(ngModel)]="sel.state">
+        <option *ngFor="let info of orderStateList" value="{{info.key}}">{{info.val}}</option>
+      </select>
+    </div>
+  </fieldset>
+  <fieldset class="mb-5 pb-5">
+    <label class="col-sm-2 control-label height-35">{{'msgorder.msgorder.date'|translate}}：</label>
+    <div class="col-sm-4">
+      <input class="form-control" [(ngModel)]="sel.createTimeBegin" type="date" placeholder="{{'msgorder.msgorder.startDate'|translate}}"/>
+    </div>
+    <div class="pull-left">
+      —
+    </div>
+    <div class="col-sm-4">
+      <input class="form-control" [(ngModel)]="sel.createTimeEnd" type="date" placeholder="{{'msgorder.msgorder.startDate'|translate}}"/>
+    </div>
+  </fieldset>
+  <button class="btn btn-info pull-right" (click)="toSearch()"><i class="mr icon-magnifier"></i>{{'msgorder.msgorder.search'|translate}}</button>
+  <button class="btn btn-purple pull-right mr-5" (click)="toSearch('all')"><i class="mr icon-magnifier"></i>{{'msgorder.msgorder.all'|translate}}</button>
+  <div class="clear"></div>
+</div>
+<!--搜索 end-->
+
+<!--信息列表 begin-->
+<div class="panel panel-default table-mbl">
+  <table class="table table-striped" #dataTable="rzhDataTable" [rzhData]="data" (pageChange)="queryDatas($event)">
+    <thead>
+    <tr>
+      <th class="unselectable text-center sort-num">{{'msgorder.msgorder.number'|translate}}</th>
+      <th class="col-lg-2  unselectable text-center">{{'msgorder.msgorder.consumerName'|translate}}</th>
+      <th class="col-lg-2  unselectable text-center">{{'msgorder.msgorder.email'|translate}}</th>
+      <th class="col-lg-2  unselectable text-center">{{'msgorder.msgorderDetail.goodsName'|translate}}</th>
+      <th class="col-lg-2  unselectable text-center">{{'msgorder.msgorder.orderPrice'|translate}}</th>
+      <th class="col-lg-1  unselectable text-center">{{'msgorder.msgorder.state'|translate}}</th>
+      <th class="col-lg-2  unselectable text-center">{{'msgorder.msgorder.creatTime'|translate}}</th>
+      <th class="col-lg-2  unselectable text-center">{{'msgorder.msgorder.opp'|translate}}</th>
+    </thead>
+    <tbody>
+    <tr class="text-center" *ngFor="let order of dataTable.data;let i = index" #men id="menList{{i}}">
+      <td class="pl">{{i+1}}</td>
+      <td>{{order.consumerName}}</td>
+      <td>{{order.consumerEmail}}</td>
+      <td>{{order?.orderGoodses[0]?.goodsName}}</td>
+      <td class="text-warning font22">$ {{order.orderPrice}}</td>
+      <td>
+        <div class="circle circle-lg"
+             [ngClass]="{
+             'circle-warning':order.state == 'Pending',
+             'circle-success':order.state == 'Paid'||order.state == 'Finish',
+             'circle-danger':order.state == 'Refunding',
+             'circle-muted':order.state == 'Cancel'||order.state == 'Expired'||order.state == 'Refunded'
+             }"
+             tooltip="{{order.state | state:orderStateNum}}"></div>
+      </td>
+      <td>{{order.createTime}}</td>
+      <td>
+        <button class="mb-sm btn-xs btn btn-primary btn-outline" type="button" (click)="toDetails(order.orderNo)">
+          <i class="fa fa-file-text-o mr"></i>{{'msgorder.msgorder.lookDetail'|translate}}
+        </button>
+      </td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+      <td colspan="10">
+        <div class="col-sm-5">
+          <div class="text-muted">
+            <strong>{{'msgorder.msgorder.No'|translate}} {{data.genStartRow()}} {{'msgorder.msgorder.to'|translate}} {{data.genEndRow()}} {{'msgorder.msgorder.strip'|translate}}，{{'msgorder.msgorder.row'|translate}} {{data.totalRow}}{{'msgorder.msgorder.strip'|translate}}</strong>
+          </div>
+        </div>
+        <div class="col-sm-7">
+          <div class="pull-right">
+            <rzhBootstrapPaginator></rzhBootstrapPaginator>
+          </div>
+        </div>
+      </td>
+    </tr>
+    </tfoot>
+  </table>
+</div>
+<!--信息列表 end-->

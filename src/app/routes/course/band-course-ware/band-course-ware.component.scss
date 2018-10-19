@@ -1,0 +1,93 @@
+.waitBand{
+  line-height: 35px;
+}
+.select-course-type {
+  position: inherit;
+}
+
+.select-course-type .type-info {
+  position: absolute;
+  width: 238px;
+  border: 1px solid #bdc7ca;
+  box-shadow: 0 0 8px #bdc7ca;
+  background: white;
+  z-index: 999;
+  max-height: 280px;
+  overflow-y:scroll;
+}
+.select-course-type .type-info button{
+  border: none;
+  border-bottom: 1px solid #dde6e9;
+  box-shadow:none;
+  border-radius: 0;
+  text-align: left;
+}
+
+.list-group-item:hover{
+  background-color: #c3c3c3;
+}
+.list-group-item .del{
+  position: absolute;
+  right: -5px;
+  top: -5px;
+  color: #e82727;
+}
+.prompt{
+  width: 100%;
+  padding: 10px 20px;
+  background-color: #cef0fb;
+  margin-bottom: 20px;
+}
+.prompt li{
+  list-style: none;
+  text-indent: 20px;
+  line-height: 30px;
+}
+.prompt li:first-child{
+  text-indent: 0px;
+}
+.dropPrompt{
+  position: static;
+  color: #ccc;
+}
+.dropPrompt i{
+  position: absolute;
+  top:50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+.panel-heading{
+  border: 1px solid #ccc;
+}
+.list-group{
+}
+.list-group-item{
+  position: relative;
+  border: none;
+  padding: 5px;
+}
+.list-group-item>div{
+  border-radius: 3px;
+  text-align: center;
+  line-height: 30px;
+  background-color: #e5e6e6;
+  padding: 5px 0;
+  position: relative;
+}
+.list-group-item .pic{
+  display: inline-block;
+  width: 26px;
+  vertical-align: middle;
+}
+.list-group-item img{
+  display: block;
+  width: 100%;
+}
+.list-group-item span{
+  font-size: 12px;
+  //text-align: center;
+  //margin: 0;
+  //overflow: hidden;
+  //white-space: nowrap;
+  //text-overflow: ellipsis;
+}

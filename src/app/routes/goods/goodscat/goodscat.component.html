@@ -1,0 +1,81 @@
+<div class="rightpage" [class.operationpage-open]="isOpen">
+  <div class="p-15 node-content-wrapper-100">
+    <!-- 添加分类信息 begin -->
+    <div bsModal #smModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+         aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" aria-label="Close" (click)="smModal.hide()">
+              <span aria-hidden="true"><i class="fa fa-times"></i></span>
+            </button>
+            <div class="modal-title font16">{{'goods.goodscat.add'|translate}}<span *ngIf="selCode"><font
+              class="text-warning">{{selName}}</font>{{'goods.goodscat.subordinate'|translate}}</span>{{'goods.goodscat.class'|translate}}
+            </div>
+          </div>
+          <div class="modal-body">
+            <input class="form-control mb" placeholder="{{'goods.goodscat.className'|translate}}" [(ngModel)]="inputCategoryName" type="text"/>
+            <input class="form-control mb" placeholder="{{'goods.goodscat.classInfo'|translate}}" [(ngModel)]="inputSummary" type="text"/>
+            <button class="btn btn-info pull-right mb" (click)="submitGoodsType();smModal.hide()">
+              <i class="fa fa-plus mr"></i>{{'goods.goodscat.add'|translate}}
+            </button>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+    </div>
+    <!-- 添加分类信息 end -->
+    <!-- 修改分类信息 begin -->
+    <div bsModal #upModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myUpModalLabel"
+         aria-hidden="true">
+      <div class="modal-dialog modal-sm" *ngIf="upInfo">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" aria-label="Close" (click)="upModal.hide()">
+              <span aria-hidden="true"><i class="fa fa-times"></i></span>
+            </button>
+            <div class="modal-title font16">{{'goods.goodscat.change'|translate}}<font
+              class="text-warning">{{upInfo.categoryName}}</font>{{'goods.goodscat.info'|translate}}
+            </div>
+          </div>
+          <div class="modal-body">
+            <input class="form-control mb" placeholder="{{'goods.goodscat.className'|translate}}" [(ngModel)]="upInfo.categoryName" type="text"/>
+            <input class="form-control mb" placeholder="{{'goods.goodscat.classInfo'|translate}}" [(ngModel)]="upInfo.summary" type="text"/>
+            <button class="btn btn-info pull-right mb" (click)="updateGoodsType();upModal.hide()">
+              <i class="fa fa-plus mr"></i>{{'goods.goodscat.submit'|translate}}
+            </button>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+    </div>
+    <!-- 修改分类信息 end -->
+    <button class="btn btn-info" (click)="addGoodsType();smModal.show();addIsShow = true"><i class="fa fa-plus mr"></i>{{'goods.goodscat.addRootGoodsType'|translate}}</button>
+    <hr/>
+    <!--列表树信息 begin-->
+    <tree-root #tree [nodes]="nodes" [focused]="true" [options]="customTemplateStringOptions">
+      <ng-template #treeNodeTemplate let-node>
+        <div style="border-bottom: 1px dashed #d9d9d9;padding: 5px 0;width: 100%;">
+          <div class="pull-left mr text-info" title="{{node.data.summary}}">{{ node.data.categoryName }}</div>
+          <div class="pull-left">{{ childrenCount(node) }}</div>
+          <button class="mb-sm btn btn-primary btn-outline btn-xs pull-right mr"
+                  (click)="addGoodsType(node.data.goodsCategoryCode,node.data.categoryName);smModal.show()">
+            <i class="fa fa-plus mr-5"></i>{{'goods.goodscat.child'|translate}}
+          </button>
+          <button class="mb-sm btn btn-warning btn-outline btn-xs pull-right mr"
+                  (click)="getUpdateGoodsTypeInfo(node.data);upModal.show()">
+            <i class="icon-note mr-5"></i>{{'goods.goodscat.change'|translate}}
+          </button>
+          <div class="clear"></div>
+        </div>
+      </ng-template>
+    </tree-root>
+    <!--列表树信息 end-->
+  </div>
+  <div class="panel-footer text-center goodscatBottom">
+    <button class="ml btn btn-default mr pull-left" type="button" (click)="closeGoodscat()">{{'goods.goodscat.close'|translate}}</button>
+  </div>
+  <!--遮罩层-->
+  <div class="add-is-show"></div>
+</div>
+

@@ -1,0 +1,134 @@
+<!--页面头部信息 begin-->
+<div class="content-heading pb-5">
+  <div class="pull-left">
+    <p>{{'enterprise.enterprise.enterprise'|translate}}</p>
+    <p class="font12 mt-5 text-muted">{{'enterprise.enterprise.enterpriseInfo'|translate}}</p>
+  </div>
+  <button class="btn btn-primary btn-sm pull-right mb" (click)="addMember()"><i class="fa fa-plus mr"></i>{{'enterprise.enterprise.addMember'|translate}}
+  </button>
+  <div class="clear"></div>
+</div><!--页面头部信息 end-->
+
+<!--企业信息 begin-->
+<div class="panel panel-default p col-md-4 node-content-wrapper-100">
+  <div class="text-right">
+    <button class="btn btn-info" (click)="addEnterprise()"><i class="icon-wrench mr-5"></i>{{'enterprise.enterprise.addEnterprise'|translate}}
+    </button>
+  </div>
+  <hr class="mt mb"/>
+  <div class="list" *ngIf="enterprises.voList && enterprises.voList.length !== 0">
+    <div class="list-item" *ngFor="let enterprise of enterprises.voList" style="overflow: hidden"
+         (click)="select(enterprise)"
+         [ngClass]="{'select':selectEnterprise && enterprise.studentCode === selectEnterprise.studentCode}">
+      <label class="radio-inline c-radio"> <input id="inlineradio1" type="radio" name="i-radio" value="option1"
+                                                  [checked]="selectEnterprise && enterprise.studentCode === selectEnterprise.studentCode"/>
+        <span class="fa fa-circle"></span> </label> <span>{{enterprise.firstName}}({{enterprise.courseHourShare ? enterprise.courseHourShare.courseHour : '0'}})</span>
+      <span class="pull-right text-info" style="cursor: pointer" (click)="enterpriseDetail($event,enterprise)">{{'enterprise.enterprise.detail'|translate}}</span>
+      <span class="pull-right text-info mr-15" style="cursor: pointer" (click)="rechargeOnOff($event)">{{'enterprise.enterprise.recharge'|translate}}</span>
+    </div>
+  </div>
+</div>
+<!--企业信息 end-->
+
+<!--成员信息 start-->
+<div class="col-md-8 pr0">
+  <div class="panel panel-default goods-data">
+    <table class="table table-striped child-table" #dataTable="rzhDataTable" [rzhData]="members">
+      <thead>
+      <tr>
+        <th class="w15 text-center unselectable sort-num text-center">{{'enterprise.enterprise.number'|translate}}</th>
+        <th class="w20 unselectable text-center">{{'enterprise.enterprise.member'|translate}}</th>
+        <th class="w30 unselectable text-center">{{'enterprise.enterprise.email'|translate}}</th>
+        <th class="w15 unselectable text-center">{{'enterprise.enterprise.upperLimit'|translate}}</th>
+        <th class="w20 unselectable text-center">{{'enterprise.enterprise.opp'|translate}}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <ng-container *ngFor="let member of members;let i = index">
+        <tr>
+          <td class="text-center w7">{{i+1}}</td>
+          <td class="text-center">{{member.student.name}}</td>
+          <td class="text-center">{{member.student.email}}</td>
+          <td class="text-center">{{member.upperLimit}}</td>
+          <td class="text-center">
+            <button class="mb-sm btn btn-primary" type="button" (click)="modifyMember(member)"><i
+              class="fa fa-edit"></i></button>
+            <button class="mb-sm btn btn-danger" type="button" (click)="deleteShare(member.student.studentCode)"><i
+              class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+      </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!--成员信息 end-->
+
+<!--重置 start-->
+<div class="recharge-lyout" *ngIf="recharge">
+  <form class="recharge-box form-validate form-horizontal" novalidate #rechargeForm="ngForm"
+        (ngSubmit)="onrecharge(rechargeForm)">
+    <div class="panel panel-info">
+      <div class="panel-heading">{{'enterprise.enterprise.enterpriseRecharge'|translate}}</div>
+      <div class="panel-body">
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">{{'enterprise.enterprise.courseHour'|translate}}：</label>
+            <div class="col-sm-8">
+              <input class="form-control" type="number" name="courseHour" required ngModel [pattern]="patterns.pnum"
+                     placeholder="{{'enterprise.enterprise.courseHourTitle'|translate}}"/>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">{{'enterprise.enterprise.upperLimit'|translate}}：</label>
+            <div class="col-sm-8">
+              <input class="form-control" type="number" name="upperLimit" required ngModel [pattern]="patterns.pnum"
+                     placeholder="{{'enterprise.enterprise.upperLimitTitle'|translate}}"/>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">{{'enterprise.enterprise.endTime'|translate}}：</label>
+            <div class="col-sm-8">
+              <input class="form-control" type="number" name="endTime" required ngModel [pattern]="patterns.pnum"
+                     placeholder="{{'enterprise.enterprise.endTimeTitle'|translate}}"/>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset class="mb0">
+          <div class="form-group">
+            <div class="col-xs-6 text-center">
+              <button class="btn btn-default" type="reset" (click)="rechargeOnOff($event)">
+                {{'enterprise.enterprise.cancel'|translate}}
+              </button>
+            </div>
+            <div class="col-xs-6 text-center">
+              <button class="btn btn-info" type="submit">{{'enterprise.enterprise.submit'|translate}}</button>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+  </form>
+</div>
+<!--重置 end-->
+
+<!--添加修改企业信息组件 start-->
+<app-edit-enterprise [isOpen]="enterpriseOpen" (closeOpen)="enterpriseClose()" [initData]="enterpriseIsAdd"
+                     (updata)="getEnterprises()">
+
+</app-edit-enterprise>
+<!--添加修改企业信息组件 end-->
+
+<!--添加修改成员信息组件 start-->
+<app-edit-member [isOpen]="memberOpen" (closeOpen)="memberClose()" [initData]="MemberIsAdd" (updata)="getEnterprises()"
+                 [selectEnterprise]="selectEnterprise">
+
+</app-edit-member>
+<!--添加修改成员信息组件 end-->
+
+<div class="clear"></div>
+

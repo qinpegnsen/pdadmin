@@ -1,0 +1,104 @@
+<nav class="navbar topnavbar" role="navigation">
+  <!--logo begin-->
+  <!--<div class="navbar-header">-->
+    <!--<a class="navbar-brand" href="#/">-->
+      <!--<div class="brand-logo">-->
+        <!--<img class="img-responsive" src="assets/img/logo.png" alt="App Logo"/>-->
+      <!--</div>-->
+      <!--<div class="brand-logo-collapsed">-->
+        <!--<img class="img-responsive" src="assets/img/logo-single.png" alt="App Logo"/>-->
+      <!--</div>-->
+    <!--</a>-->
+  <!--</div>-->
+  <!--logo end-->
+  <!-- END navbar header-->
+  <!--功能操作导航 begin-->
+  <div class="nav-wrapper header-nav">
+    <a class="navbar-brand" routerLink="/main/home">
+      <div class="brand-logo">
+        <img class="img-responsive" src="assets/img/T_Smallwithtagline.png" alt="Logo"/>
+      </div>
+      <!--<div class="brand-logo-collapsed">-->
+        <!--<img class="img-responsive" src="assets/img/logo-single.png" alt="App Logo"/>-->
+      <!--</div>-->
+    </a>
+    <!--导航 左 begin-->
+    <ul class="nav navbar-nav">
+      <!--展开或隐藏左导航 begin-->
+      <li>
+        <a class="hidden-xs" trigger-resize="" (click)="toggleCollapsedSideabar()" *ngIf="!isCollapsedText()">
+          <em class="fa fa-navicon"></em>
+        </a>
+        <a class="visible-xs" (click)="settings.layout.asideToggled =! settings.layout.asideToggled">
+          <em class="fa fa-navicon"></em>
+        </a>
+      </li>
+      <!--展开或隐藏左导航 end-->
+      <!--当前登录人信息 begin-->
+      <li>
+        <a (click)="toggleUserBlock($event)">
+          <em class="icon-user"></em>
+        </a>
+      </li>
+      <!--当前登录人信息 end-->
+    </ul>
+    <!--导航 左 end-->
+
+    <!--导航 右 begin-->
+    <ul class="nav navbar-nav navbar-right">
+      <!--全屏显示 begin-->
+      <li class="visible-lg">
+        <a #fsbutton (click)="toggleFullScreen($event)">
+          <em class="fa fa-expand"></em>
+        </a>
+      </li>
+      <!--全屏显示 end-->
+      <!-- 呼吸孔提醒 begin -->
+      <li class="dropdown dropdown-list" *ngIf="orderRefundingNum>0" dropdown>
+        <a dropdownToggle>
+          <em class="icon-bell"></em>
+          <div class="label label-danger">{{orderRefundingNum}}</div>
+        </a>
+        <ul *dropdownMenu class="dropdown-menu animated flipInX">
+          <!--<li>-->
+            <!--<div class="list-group" (click)="toRefundingOrder()">-->
+              <!--<a class="list-group-item">-->
+                <!--<div class="media-box">-->
+                  <!--<div class="pull-left">-->
+                    <!--<em class="fa fa-money fa-2x text-danger"></em>-->
+                  <!--</div>-->
+                  <!--<div class="media-box-body clearfix">-->
+                    <!--<p class="m0">-->
+                      <!--退款申请-->
+                      <!--<span class="pull-right text-danger font18">{{orderRefundingNum}}</span>-->
+                    <!--</p>-->
+                    <!--<p class="m0 text-muted">-->
+                      <!--<small>申请退款的订单</small>-->
+                    <!--</p>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</a>-->
+            <!--</div>-->
+          <!--</li>-->
+        </ul>
+      </li>
+      <!-- 呼吸孔提醒 end -->
+      <!--修改密码 begin-->
+      <li>
+        <a title="{{'layout.header.modifyPassword'|translate}}" (click)="modifyPasswordInput()">
+          <em class="fa fa-edit"></em>
+        </a>
+      </li>
+      <!--修改密码 begin-->
+      <!--退出登录 begin-->
+      <li>
+        <a (click)="logout($event)" title="{{'layout.header.logOut'|translate}}">
+          <i class="icon-power"></i>
+        </a>
+      </li>
+      <!--退出登录 end-->
+    </ul>
+    <!--导航 右 end-->
+    <div class="clear"></div>
+  </div>
+  <!--功能操作导航 end-->

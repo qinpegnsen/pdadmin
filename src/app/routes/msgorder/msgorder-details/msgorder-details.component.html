@@ -1,0 +1,149 @@
+<div class="content-heading">
+  {{'msgorder.msgorderDetail.orderDetail'|translate}}
+  <button class="btn btn-warning pull-right" (click)="goBack()"><i class="fa fa-reply-all mr"></i>{{'msgorder.msgorderDetail.back'|translate}}</button>
+</div>
+<!--订单信息 begin-->
+<div class="panel panel-default">
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-md-6">
+        <p class="lead bb font18 text-info"><i class="fa fa-file-text-o mr-5"></i>{{'msgorder.msgorderDetail.orderInfo'|translate}}</p>
+        <form class="form-horizontal p-20">
+          <div class="form-group">
+            <div class="col-sm-4">{{'msgorder.msgorderDetail.consumerName'|translate}}:</div>
+            <div class="col-sm-8">
+              <strong>{{orderInfo.consumerName}}</strong>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-4">{{'msgorder.msgorderDetail.email'|translate}}:</div>
+            <div class="col-sm-8">
+              <strong>{{orderInfo.consumerEmail}}</strong>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-4">{{'msgorder.msgorderDetail.orderPrice'|translate}}:</div>
+            <div class="col-sm-8 text-warning font18">
+              <strong>$ {{orderInfo.orderPrice}}</strong>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-4">{{'msgorder.msgorderDetail.orderState'|translate}}:</div>
+            <div class="col-sm-8">
+              <strong>{{orderInfo.state | state:orderStateNum}}</strong>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-4">{{'msgorder.msgorderDetail.timezone'|translate}}:</div>
+            <div class="col-sm-8">
+              <strong>{{orderInfo.timeZone}}</strong>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-4">{{'msgorder.msgorderDetail.source'|translate}}:</div>
+            <div class="col-sm-8">
+              <strong>{{orderInfo.orderSource}}</strong>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-4">{{'msgorder.msgorderDetail.creatTime'|translate}}:</div>
+            <div class="col-sm-8">
+              <strong>{{orderInfo.createTime}}</strong>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-6" *ngIf="orderInfo.orderPayments[0]">
+        <p class="lead bb font18 text-info"><i class="fa fa-paypal mr-5"></i>{{'msgorder.msgorderDetail.payInfo'|translate}}</p>
+        <form class="form-horizontal p-20">
+          <div class="form-group">
+            <div class="col-sm-4">{{'msgorder.msgorderDetail.payPrice'|translate}}:</div>
+            <div class="col-sm-8 text-warning font18">
+              <strong>$ {{orderInfo.orderPayments[0].orderPrice}}</strong>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-4">{{'msgorder.msgorderDetail.payType'|translate}}:</div>
+            <div class="col-sm-8">
+              <strong>{{orderInfo.orderPayments[0].payType}}</strong>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-4">{{'msgorder.msgorderDetail.payTime'|translate}}:</div>
+            <div class="col-sm-8">
+              <strong>{{orderInfo.orderPayments[0].payTime}}</strong>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-4">{{'msgorder.msgorderDetail.creatTime'|translate}}:</div>
+            <div class="col-sm-8">
+              <strong>{{orderInfo.orderPayments[0].createTime}}</strong>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!--订单信息 end-->
+<!--订单商品列表 begin-->
+<div class="panel">
+  <div class="font18 mt ml text-info"><i class="icon-layers mr-5"></i>{{'msgorder.msgorderDetail.goodsList'|translate}}</div>
+  <div class="table-responsive">
+    <table class="table table-hover table-bordered table-striped">
+      <thead>
+      <tr>
+        <th class="text-center">{{'msgorder.msgorderDetail.goodsPic'|translate}}</th>
+        <th>{{'msgorder.msgorderDetail.goodsName'|translate}}</th>
+        <th class="text-center">{{'msgorder.msgorderDetail.price'|translate}}</th>
+        <th class="text-center">{{'msgorder.msgorderDetail.goodsType'|translate}}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let good of orderInfo.orderGoodses">
+        <td class="text-center">
+          <img (click)="bigImg(good.goodsImage)" class="cursor-pointer" src="{{good.goodsImage}}"
+                 onerror="javascript:this.src='../../../../assets/img/dummy.png'" height="60"/>
+        </td>
+        <td>{{good.goodsName}}</td>
+        <td class="text-center">
+          <span class="font22 text-warning mr-5">${{good.goodsRealPrice}}</span>
+          <span class="text-decoration-line text-muted">${{good.goodsPrice}}</span>
+        </td>
+        <td class="text-center">
+         {{good.goodsType | state:goodsStateNum}}
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!--订单商品列表 end-->
+<!--订单跟踪 begin-->
+<ul class="timeline">
+  <li class="timeline-separator" data-datetime="Start"></li>
+  <li *ngFor="let trace of orderInfo.orderTraces;let i = index" [ngClass]="i%2==1? 'timeline-inverted' : ''">
+    <div class="timeline-badge primary">
+      <em class="icon-clock"></em>
+    </div>
+    <div class="timeline-panel">
+      <div class="popover" [ngClass]="i%2==1? 'right' : 'left'">
+        <h4 class="popover-title">
+          {{trace.event}}
+          <span class="pull-right font-normal text-muted font12">{{trace.createTime}}</span>
+        </h4>
+        <div class="arrow"></div>
+        <div class="popover-content">
+          <p>{{trace.summary}}</p>
+        </div>
+      </div>
+    </div>
+  </li>
+  <li class="timeline-end">
+    <span class="timeline-badge">
+      <em class="icon-power"></em>
+    </span>
+  </li>
+</ul>
+<!--订单跟踪 end-->
+

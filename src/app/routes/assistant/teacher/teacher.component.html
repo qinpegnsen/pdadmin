@@ -1,0 +1,64 @@
+<!--教师管理头部 Begin-->
+<div class="content-heading pb-5">
+  <div class="pull-left">
+    <p>{{'assistant.teacher.teacher'|translate}}</p>
+    <p class="font12 mt-5 text-muted">{{'assistant.teacher.teacherInfo'|translate}}</p>
+  </div>
+  <button class="btn btn-primary btn-sm pull-right mb" (click)="OpenOrClose()"><i class="fa fa-user mr"></i>{{'assistant.teacher.addTeacher'|translate}}
+  </button>
+  <div class="clear"></div>
+</div>
+<!--教师管理头部 End-->
+<!-- 教师管理主体 Begin-->
+<div class="row">
+  <div class="col-lg-4 col-md-6" *ngFor="let item of teacherData.voList">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <i class="pull-right icon-book-open fa-plus" tooltip="Details" style="cursor: pointer" (click)="goDetail(item.tutorCode)"></i>
+      </div>
+      <div class="panel-body text-center">
+        <div class="row">
+          <div class="col-xs-4 left-peo">
+            <i class="ba-font"
+               [ngClass]="{'ba-man': item.sex == 'MALE', 'ba-woman': item.sex == 'FEMALE'}"></i>
+            <img class="center-block img-responsive img-circle thumb64" src="{{item.avatar}}"
+                 onerror="javascript:this.src='../../../../assets/img/user/user.png'"/>
+            <h4 class=" text-nowrap text-overflow">{{item.eName}}</h4>
+          </div>
+          <div class="col-xs-8">
+            <p class="text-left text-nowrap text-overflow"><em class="fa fa-phone fa-fw mr-5"></em>Tel: {{item.phone}}
+            </p>
+            <p class="text-left text-nowrap text-overflow"><em class="fa fa-envelope fa-fw mr-5"></em>Email:
+              {{item.email}}</p>
+            <p class="text-left text-nowrap text-overflow"><em class="fa fa-map-marker fa-fw mr-5"></em>timeZone:
+              {{item.timeZone}}</p>
+            <p class="text-left text-nowrap text-overflow"><em class="fa fa fa-user fa-fw mr-5"></em>alias:
+              {{item.name}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="panel-footer text-center text-overflow p0">
+        <span class="col-xs-6 text-center pt pb" (click)="addCourse(item.tutorCode)" style="border-right: 1px solid #ccc">
+          <i class="icon-notebook fa-plus mr-5"></i>{{'assistant.teacher.bandCourse'|translate}}
+        </span>
+        <span class="col-xs-6 text-center pt pb cursor"  routerLink="/main/tTableAdd" [queryParams]="{code:item.tutorCode}">
+          <i class="fa fa-calendar mr-5"></i>{{'assistant.teacher.timetable'|translate}}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<!--教师管理主体 End-->
+<!--加载更多 Begin-->
+<div class="row">
+  <div class="col-xs-12">
+    <button class="form-control" (click)="loadMore()" [disabled]="teacherData.lastPage">
+      + {{!teacherData.lastPage? 'load more': 'load over'}}
+      <span class="text-primary">（{{'assistant.teacher.row'|translate}} {{teacherData.totalRow}} {{'assistant.teacher.company'|translate}}）</span>
+    </button>
+  </div>
+</div>
+<!--加载更多 End-->
+<!--右侧添加老师组件 Begin-->
+<app-add-teacher [isOpen]="addOpen" (close)="OpenOrClose()" (update)="updateTeacher()"></app-add-teacher>
+<!--右侧添加老师组件 End-->

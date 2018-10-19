@@ -1,0 +1,153 @@
+<!--右侧添加课程 Begin-->
+<div class="rightpage" [class.operationpage-open]="isOpen">
+  <!--添加课程表单 Begin-->
+  <form class="form-validate form-horizontal" novalidate #addCourse="ngForm" (ngSubmit)="onsubmit(addCourse)"
+        style="height: 100%">
+    <div class="panel-default">
+      <!--表单头部 Begin-->
+      <div class="addTitle panel-heading">
+        <h4>{{isAdd.bl ? 'Add Course' : 'Update Course'}}</h4>
+      </div>
+      <!--表单头部 End-->
+      <!--表单主体 Begin-->
+      <div class="panel-body">
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label"><i>*</i>{{'course.editCourse.course'|translate}}</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" name="course" required #course="ngModel"
+                     [(ngModel)]="isAdd.data.course"  ngModel
+                     placeholder="{{'course.editCourse.courseTitle'|translate}}"/>
+            </div>
+          </div>
+          <div class="col-sm-8 pull-right text-danger" [hidden]="course.valid || course.untouched">
+            {{'course.editCourse.courseTitle'|translate}}
+          </div>
+        </fieldset>
+        <fieldset *ngIf="isAdd.bl">
+          <div class="form-group">
+            <label class="col-sm-4 control-label"><i>*</i>{{'course.editCourse.courseType'|translate}}</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" name="category" required #category="ngModel"
+                     [(ngModel)]="isAdd.data.categoryName" ngModel
+                     placeholder="{{'course.editCourse.courseTypeTitle'|translate}}" disabled/>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label"><i>*</i>{{'course.editCourse.courseCalculateType'|translate}}</label>
+            <div class="col-sm-7">
+              <select class="form-control" name="courseCalculateType" required #courseCalculateType="ngModel"
+                      [(ngModel)]="isAdd.data.courseCalculateType" ngModel>
+                <option *ngFor="let item of courseCalculateTypeList" value="{{item.key}}">
+                  {{item.val}}
+                </option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label"><i>*</i>{{'course.editCourse.isHot'|translate}}</label>
+            <div class="col-sm-7">
+              <select class="form-control" name="isHot" required #isHot="ngModel"
+                      [(ngModel)]="isAdd.data.isHot" ngModel>
+                <option *ngFor="let item of isHotList" value="{{item.key}}">
+                  {{item.val}}
+                </option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label"><i>*</i>{{'course.editCourse.requirements'|translate}}</label>
+            <div class="col-sm-7">
+              <div class="checkbox c-checkbox pull-left w40" *ngFor="let courseGeneralType of courseGeneralTypeList">
+                <label>
+                  <input type="checkbox" name="courseGeneralType"  value="{{courseGeneralType.key}}" ngModel/>
+                  <span class="fa fa-check"></span>{{courseGeneralType.val}}
+                </label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label"><i>*</i>{{'course.editCourse.duration'|translate}}[{{'course.editCourse.minute'|translate}}]</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="number" min="1" max="120" name="duration" required #duration="ngModel"
+                     [(ngModel)]="isAdd.data.duration" ngModel
+                     placeholder="{{'course.editCourse.durationTitle'|translate}}[{{'course.editCourse.minute'|translate}}]"
+                     [pattern]="patterns.pnum"/>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label"><i>*</i>{{'course.editCourse.peopleNumber'|translate}}</label>
+            <div class="col-sm-7">
+              <!--<input class="form-control" type="number" min="1" max="100" name="studentNum" required #studentNum="ngModel" [(ngModel)]="isAdd.data.studentNum" ngModel placeholder="{{'course.editCourse.peopleNumberTitle'|translate}}" [pattern]="patterns.pnum"/>-->
+              <select class="form-control" name="studentNum" required #studentNum="ngModel"
+                      [(ngModel)]="isAdd.data.studentNum" ngModel>
+                <option *ngFor="let num of upperClassLimit" value="{{num}}">{{num}}</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label"><i>*</i>{{'course.editCourse.needCourseHour'|translate}}</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="number" min="0" name="courseHour" required #courseHour="ngModel"
+                     [(ngModel)]="isAdd.data.courseHour" ngModel
+                     placeholder="{{'course.editCourse.needCourseHourTitle'|translate}}" [pattern]="patterns.pnum"/>
+            </div>
+          </div>
+        </fieldset>
+        <!--<fieldset>-->
+        <!--<div class="form-group">-->
+        <!--<label class="col-sm-4 control-label"><i>*</i>Pondlet Id</label>-->
+        <!--<div class="col-sm-7">-->
+        <!--<input class="form-control" type="text" name="ponddyletId" required #ponddyletId="ngModel" [(ngModel)]="isAdd.data.ponddyletId" ngModel placeholder="{{'course.editCourse.sourse'|translate}}" title="{{'course.editCourse.sourse'|translate}}"/>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</fieldset>-->
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label"><i>*</i>{{'course.editCourse.state'|translate}}</label>
+            <div class="col-sm-7">
+              <select class="form-control" name="state" required #state="ngModel" [(ngModel)]="isAdd.data.state"
+                      ngModel>
+                <option *ngFor="let state of stateList" value="{{state.key}}">{{state.val}}</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">{{'course.editCourse.aboutInfo'|translate}}</label>
+            <div class="col-sm-7">
+              <textarea class="form-control" id="inputContact6" row="4" name="summary" #summary="ngModel"
+                        [(ngModel)]="isAdd.data.summary" ngModel
+                        placeholder="{{'course.editCourse.aboutInfoTitle'|translate}}"></textarea>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <!--表单主体 End-->
+      <!--表单底部 Begin-->
+      <div class="panel-footer text-center" style="position: absolute;width: 100%;bottom:0;">
+        <button class="ml btn btn-default mr pull-left" type="button" (click)="cancelAdd()">
+          {{'course.editCourse.cancel'|translate}}
+        </button>
+        <button class="ml btn btn-info pull-left" type="submit">{{isAdd.bl ? 'Add' : 'Update'}}</button>
+      </div>
+      <!--表单底部 End-->
+    </div>
+  </form>
+  <!--添加课程表单 End-->
+</div>
+<!--右侧添加课程 End-->

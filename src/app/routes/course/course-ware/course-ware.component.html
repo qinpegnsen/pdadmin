@@ -1,0 +1,86 @@
+<!--页面头部信息 begin-->
+<div class="content-heading pb-5">
+  <div class="pull-left">
+    <p>{{'course.courseWare.courseWare'|translate}}</p>
+    <p class="font12 mt-5 text-muted">{{'course.courseWare.courseWareInfo'|translate}}</p>
+  </div>
+  <button class="btn btn-primary btn-sm pull-right mb" (click)="addWare()"><i class="fa fa-plus mr"></i>{{'course.courseWare.addCourseWare'|translate}}</button>
+  <div class="clear"></div>
+</div>
+<!--页面头部信息 end-->
+<!--课程体系信息 begin-->
+<div class="panel panel-default p col-md-3 node-content-wrapper-100">
+  <h4>{{'course.courseWare.category'|translate}}</h4>
+  <hr class="mt mb"/>
+  <!--列表树信息 begin-->
+  <tree-root #tree [nodes]="nodes" [focused]="true" [options]="options">
+    <ng-template #treeNodeTemplate let-node>
+      <div class="tree-info-class">
+        <div class="pull-left mr text-info" title="{{node.data.summary}}">{{ node.data.category }}</div>
+        <span class="text-muted pull-right" style="color: red" *ngIf="node.data.state == 'Void'">（作废）</span>
+        <div class="clear"></div>
+      </div>
+    </ng-template>
+  </tree-root>
+  <!--列表树信息 end-->
+</div>
+<!--课程体系信息 end-->
+
+
+<div class="col-md-9 pr0">
+  <!--课件增加和修改 start-->
+  <app-upload-course-ware [isAdd]="isAdd" [addCourseWare]="addCourseWare" (cancelWare)="cancelWare()"></app-upload-course-ware>
+  <!--课件增加和修改 end-->
+  <!--课件列表 start-->
+  <div class="panel panel-default goods-data">
+    <table class="table table-striped child-table" #dataTable="rzhDataTable" [rzhData]="courseWareData" (pageChange)="getCoursewareList($event)">
+      <thead>
+      <tr>
+        <th class="w7 text-center unselectable sort-num text-center">{{'course.courseWare.number'|translate}}</th>
+        <th class="w20 unselectable">{{'course.courseWare.name'|translate}}</th>
+        <th class="w33 unselectable">{{'course.courseWare.summary'|translate}}</th>
+        <!--<th class="w10 text-center unselectable">{{'course.courseWare.type'|translate}}</th>-->
+        <th class="w10 text-center unselectable">{{'course.courseWare.size'|translate}}</th>
+        <th class="w10 text-center unselectable">{{'course.courseWare.state'|translate}}</th>
+        <th class="w20 text-center unselectable">{{'course.courseWare.opp'|translate}}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <ng-container *ngFor="let data of courseWareData.voList;let i = index">
+        <tr>
+          <td class="text-center w7">{{i+1}}</td>
+          <td>{{data.title}}</td>
+          <td>{{data.summary}}</td>
+          <!--<td class="text-center">{{data.type.toLowerCase()}}</td>-->
+          <td class="text-center">{{(data.size/1024 > 1 ? data.size/1024 || 0 : data.size || 0) | number:'1.2-2'}}
+            <span class="text-muted font12">{{data.size/1024 > 1 ? 'MB' : 'KB'}}</span>
+          </td>
+          <td class="text-center">
+            <div class="circle circle-lg"  tooltip="{{data.state}}" [ngClass]="{'circle-success':data.state == 'Activate','circle-muted':data.state == 'Unavailable','circle-danger':data.state == 'Delete'}"></div>
+          </td>
+          <td class="text-center">
+            <button class="mb-sm btn btn-danger" tooltip="Delete" type="button" (click)="deleteware(data.coursewareCode)"><i class="fa fa-trash"></i></button>
+            <a target="_blank" href="{{data.downloadUrl}}"><button class="mb-sm btn btn-info" tooltip="Preview" type="button"><i class="fa fa-search"></i></button></a>
+          </td>
+        </tr>
+      </ng-container>
+      </tbody>
+      <tfoot>
+      <tr>
+        <td colspan="10">
+          <div class="col-sm-5">
+            <div class="text-muted"><strong>{{'course.course.No'|translate}} {{courseWareData.genStartRow() || '0'}} {{'course.course.to'|translate}} {{courseWareData.genEndRow() || '0'}} {{'course.course.strip'|translate}}，{{'course.course.row'|translate}} {{courseWareData.totalRow || '0'}}
+              {{'course.course.strip'|translate}}</strong></div>
+          </div>
+          <div class="col-sm-7">
+            <div class="pull-right">
+              <rzhBootstrapPaginator></rzhBootstrapPaginator>
+            </div>
+          </div>
+        </td>
+      </tr>
+      </tfoot>
+    </table>
+  </div>
+  <!--课件列表 end-->
+</div>

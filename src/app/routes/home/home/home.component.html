@@ -1,0 +1,171 @@
+<!--信息统计展示 begin-->
+<div class="row">
+  <!--订单总数 begin-->
+  <div class="col-lg-3 col-sm-6 cursor-pointer" routerLink="/main/msgorder">
+    <div class="panel widget bg-primary">
+      <div class="row row-table">
+        <div class="col-xs-4 text-center bg-primary-dark pv-lg">
+          <em class="icon-docs fa-3x"></em>
+        </div>
+        <div class="col-xs-8 pv-lg">
+          <div class="h2 mt0">{{orderNum}}</div>
+          <div class="text-uppercase">{{'home.home.orderNum'|translate}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--订单总数 end-->
+  <!--预约中个数 begin-->
+  <div class="col-lg-3 col-sm-6 cursor-pointer" routerLink="/main/room" [queryParams]="{state:'Book'}">
+    <div class="panel widget bg-purple">
+      <div class="row row-table">
+        <div class="col-xs-4 text-center bg-purple-dark pv-lg">
+          <em class="icon-clock fa-3x"></em>
+        </div>
+        <div class="col-xs-8 pv-lg">
+          <div class="h2 mt0">{{bookingNum}}</div>
+          <div class="text-uppercase">{{'home.home.booking'|translate}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--预约中个数 end-->
+  <!--已完成的课程数 begin-->
+  <div class="col-lg-3 col-md-6 col-sm-12 cursor-pointer" routerLink="/main/room" [queryParams]="{state:'Ended'}">
+    <div class="panel widget bg-green">
+      <div class="row row-table">
+        <div class="col-xs-4 text-center bg-green-dark pv-lg">
+          <em class="fa fa-check-square-o fa-3x"></em>
+        </div>
+        <div class="col-xs-8 pv-lg">
+          <div class="h2 mt0">{{classroomOverNum}}</div>
+          <div class="text-uppercase">{{'home.home.classroomOver'|translate}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--已完成的课程数 end-->
+  <!--教师数 begin-->
+  <div class="col-lg-3 col-md-6 col-sm-12 cursor-pointer" routerLink="/main/assis/teach/list">
+    <div class="panel widget">
+      <div class="row row-table">
+        <div class="col-xs-4 text-center bg-green pv-lg">
+          <em class="icon-people fa-3x"></em>
+        </div>
+        <div class="col-xs-8 pv-lg">
+          <div class="h2 mt0">{{tutorNum}}</div>
+          <div class="text-uppercase">{{'home.home.teacherNum'|translate}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--教师数 end-->
+</div>
+<!--信息统计展示 end-->
+
+<!--订单状态及数据，上课统计   图表展示   begin-->
+<div class="row">
+  <div class="col-lg-6">
+    <div class="panel p">
+      <div echarts [options]="orderStateTotalOption" class="echarts-info"></div>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="panel p">
+      <div echarts [options]="classroomTotalFor6MonthOption" class="echarts-info"></div>
+    </div>
+  </div>
+</div>
+<!--订单状态及数据，上课统计   图表展示   end-->
+
+<!--快捷操作及课表 begin-->
+<div class="row">
+  <!--快捷操作 begin-->
+  <div class="col-lg-6">
+    <div class="bg-white p">
+      <h4><i class="icon-settings mr"></i>{{'home.home.shortOpp'|translate}}</h4>
+    </div>
+    <div class="panel widget home-quick">
+      <div class="row row-table row-flush">
+        <div class="col-xs-6 bb br" routerLink="/main/assis/teach/list">
+          <div class="row row-table row-flush">
+            <div class="col-xs-4 text-center text-info">
+              <em class="fa fa-graduation-cap fa-2x"></em>
+            </div>
+            <div class="col-xs-8">
+              <div class="panel-body text-center">
+                <p class="mt0 font16">{{'home.home.teacher'|translate}}</p>
+                <p class="mb0 text-muted">{{'home.home.manageTeacher'|translate}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-6 bb" routerLink="/main/assis/assis/list">
+          <div class="row row-table row-flush">
+            <div class="col-xs-4 text-center text-danger">
+              <em class="fa fa-users fa-2x"></em>
+            </div>
+            <div class="col-xs-8">
+              <div class="panel-body text-center">
+                <p class="mt0 font16">{{'home.home.assistant'|translate}}</p>
+                <p class="mb0 text-muted">{{'home.home.manageAssistant'|translate}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row row-table row-flush">
+        <div class="col-xs-6 br" routerLink="/main/cour/course">
+          <div class="row row-table row-flush">
+            <div class="col-xs-4 text-center text-inverse">
+              <em class="fa fa-building-o fa-2x"></em>
+            </div>
+            <div class="col-xs-8">
+              <div class="panel-body text-center">
+                <p class="mt0 font16">{{'home.home.courseSystem'|translate}}</p>
+                <p class="mb0 text-muted font12">{{'home.home.manageCourseSystem'|translate}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-6" routerLink="/main/classGoods">
+          <div class="row row-table row-flush">
+            <div class="col-xs-4 text-center text-success">
+              <em class="fa fa-shopping-cart fa-2x"></em>
+            </div>
+            <div class="col-xs-8">
+              <div class="panel-body text-center">
+                <p class="mt0 font16">{{'home.home.courseGoods'|translate}}</p>
+                <p class="mb0 text-muted font12">{{'home.home.manageCourseGoods'|translate}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--快捷操作 end-->
+  <!--设置课表 begin-->
+  <div class="col-lg-6">
+    <div class="bg-white p">
+      <h4><i class="fa fa-calendar mr"></i>{{'home.home.setTimetable'|translate}}</h4>
+    </div>
+    <div class="panel widget home-quick">
+      <div class="row row-table row-flush p-20 mt-20">
+        <select class="form-control" [(ngModel)]="selTutor">
+          <option *ngFor="let tutor of tutorsList" value="{{tutor.tutorCode}}">{{tutor.name}}</option>
+        </select>
+      </div>
+      <div class="row row-table row-flush p-20 mt-2">
+        <span class="text-muted font12">（{{'home.home.searchTeacher'|translate}}）</span>
+        <button type="button" class="btn btn-info pull-right" (click)="setTimetable()">
+          <i class="icon-wrench mr-5"></i>
+          {{'home.home.setTimetable'|translate}}
+        </button>
+      </div>
+    </div>
+  </div>
+  <!--设置课表 end-->
+</div>
+<!--快捷操作及课表 begin-->
+

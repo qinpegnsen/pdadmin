@@ -1,0 +1,77 @@
+<!--教师管理头部 Begin-->
+<div class="content-heading pb-5">
+  <div class="pull-left">
+    <p>{{classromeData.course}}{{'questionnaire.detail.title'|translate}}</p>
+    <p class="font12 mt-5 text-muted">{{'questionnaire.detail.titleDesc'|translate}}</p>
+  </div>
+  <button class="btn btn-warning pull-right" (click)="goBack()"><i class="fa fa-reply-all mr"></i>{{'classroom.classroomDetail.back'|translate}}
+  </button>
+  <div class="clear"></div>
+</div>
+<!--教师管理头部 End-->
+<!--信息列表 begin-->
+<div class="panel panel-default table-mbl" *ngIf="stuData.questionNaireRecord.length>0">
+  <table class="table table-striped" #dataTable="rzhDataTable" [rzhData]="stuData.questionNaireRecord">
+    <thead>
+    <tr>
+      <th class="unselectable text-center sort-num w5">{{'classroom.classroom.number'|translate}}</th>
+      <th class="w60  unselectable text-center">{{'questionnaire.detail.question'|translate}}</th>
+      <th class="w10  unselectable text-center">{{'questionnaire.detail.score'|translate}}</th>
+      <th class="w25  unselectable text-center">{{'questionnaire.detail.detail'|translate}}</th>
+    </thead>
+    <tbody>
+    <tr class="text-center" *ngFor="let item of stuData.questionNaireRecord;let i = index">
+      <td class="pl">{{i+1}}</td>
+      <td>{{item.questionContent}}</td>
+      <td>{{item.questionStar | number:'1.2-2'}}</td>
+      <td>
+        <span *ngFor="let every of item?.score;let j=index">{{every.studentName}}({{every.questionStar}})
+        <span *ngIf="j!=item?.score.length-1">、</span>
+        </span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<p class="table table-striped font16" *ngIf="stuData.questionNaireRecord.length==0">
+  {{'questionnaire.detail.noWrite'|translate}}
+</p>
+<!--信息列表 end-->
+
+<!--学生管理头部 Begin-->
+<div class="content-heading pb-5">
+  <div class="pull-left">
+    <p>{{classromeData.course}}{{'questionnaire.detail.titleStu'|translate}}</p>
+    <p class="font12 mt-5 text-muted">{{'questionnaire.detail.titleDesc'|translate}}</p>
+  </div>
+  <div class="clear"></div>
+</div>
+<!--学生管理头部 End-->
+<!--信息列表 begin-->
+<div class="panel panel-default table-mbl" *ngIf="tutorData.questionNaireRecord.length>0">
+  <table class="table table-striped" #dataTable="rzhDataTable" [rzhData]="tutorData.questionNaireRecord">
+    <thead>
+    <tr>
+      <th class="unselectable text-center sort-num w5">{{'classroom.classroom.number'|translate}}</th>
+      <th class="w60  unselectable text-center">{{'questionnaire.detail.question'|translate}}</th>
+      <th class="w10  unselectable text-center">{{'questionnaire.detail.score'|translate}}</th>
+      <th class="w25  unselectable text-center">{{'questionnaire.detail.detail'|translate}}</th>
+    </thead>
+    <tbody>
+    <tr class="text-center" *ngFor="let item of tutorData.questionNaireRecord;let i = index">
+      <td class="pl">{{i+1}}</td>
+      <td>{{item.questionContent}}</td>
+      <td>{{item.questionStar | number:'1.2-2'}}</td>
+      <td>
+        <span *ngFor="let every of item?.score;let j=index">{{every.studentName}}({{every.questionStar}})
+        <span *ngIf="j!=item?.score.length-1">、</span>
+        </span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<p class="table table-striped font16" *ngIf="tutorData.questionNaireRecord.length==0">
+  {{'questionnaire.detail.noTutorWrite'|translate}}
+</p>
+<!--信息列表 end-->

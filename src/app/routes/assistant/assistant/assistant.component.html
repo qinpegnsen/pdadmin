@@ -1,0 +1,66 @@
+<!--页面头部信息 begin-->
+<div class="content-heading pb-5">
+  <div class="pull-left">
+  <p>{{'assistant.assistant.assistant'|translate}}</p>
+  <p class="font12 mt-5 text-muted">{{'assistant.assistant.assistantInfo'|translate}}</p>
+</div>
+  <button class="btn btn-primary btn-sm pull-right mb" (click)="OpenOrClose()"><i class="fa fa-user mr"></i>{{'assistant.assistant.addAssistant'|translate}}</button>
+  <div class="clear"></div>
+</div>
+<!--页面头部信息 end-->
+
+<!--助教管理主体 Begin-->
+<div class="row" *ngIf="assistantData.voList">
+  <div class="col-lg-4 col-md-6" *ngFor="let item of assistantData.voList">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <!--<button class="btn btn-link pull-right" (click)="goDetail(item.assistantCode)">-->
+          <!--<em class="fa fa-file-text-o fa-lg" title="{{'assistant.assistant.detail'|translate}}"></em>-->
+        <!--</button>-->
+      </div>
+      <div class="panel-body text-center">
+        <div class="row">
+          <div class="col-xs-4">
+            <img class="center-block img-responsive img-circle thumb64" src="{{item.avatar}}"
+                 onerror="javascript:this.src='../../../../assets/img/user/user.png'"/>
+            <h4 class=" text-nowrap text-overflow">{{item.name}}</h4>
+          </div>
+          <div class="col-xs-8">
+            <p class="text-left text-nowrap text-overflow"><em class="fa fa-phone fa-fw mr-5"></em>Tel: {{item.phone}}
+            </p>
+            <p class="text-left text-nowrap text-overflow"><em class="fa fa-envelope fa-fw mr-5"></em>Email:
+              {{item.email}}</p>
+            <p class="text-left text-nowrap text-overflow"><em class="fa fa-map-marker fa-fw mr-5"></em>timeZone:
+              {{item.timeZone}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="panel-footer text-center text-overflow p0">
+        <span class="col-xs-6 text-center cursor" style="border-right: 1px solid #ccc" >
+          <button class="pt pb" (click)="goDetail(item.assistantCode)" [disabled]="settings.user.manageState === 'General'">
+            <i class="icon-notebook fa-plus mr-5"></i>{{'assistant.assistant.lookDetail'|translate}}
+          </button>
+        </span>
+        <span class="col-xs-6 text-center cursor" >
+          <button class=" pt pb" (click)="bandTeacher(item.assistantCode)">
+            <i class="fa fa-calendar mr-5"></i>{{'assistant.assistant.bandTeacher'|translate}}
+          </button>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<!--助教管理主体 End-->
+<!--加载更多 Begin-->
+<div class="row">
+  <div class="col-xs-12">
+    <button class="form-control" (click)="loadMore()" [disabled]="assistantData.lastPage" >
+      + {{!assistantData.lastPage? 'load more': 'load over'}}
+      <span class="text-primary">（{{'assistant.assistant.row'|translate}} {{assistantData.totalRow}} {{'assistant.assistant.company'|translate}}）</span>
+    </button>
+  </div>
+</div>
+<!--加载更多 End-->
+<!--右侧表单组件 Begin-->
+<app-add-assistant [isOpen]="addOpen" (close)="OpenOrClose()" (update)="updateAssistant()"></app-add-assistant>
+<!--右侧表单组件 End-->

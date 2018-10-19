@@ -1,0 +1,61 @@
+<!--页面头部信息 begin-->
+<div class="content-heading pb-5">
+  <div class="pull-left">
+    <p>{{'msgTemplate.msgTemplate.templateCenter'|translate}}</p>
+    <p class="font12 mt-5 text-muted">{{'msgTemplate.msgTemplate.templateCenterInfo'|translate}}</p>
+  </div>
+  <!--<button class="btn btn-primary btn-sm pull-right mb" (click)="toAddOrEdit()">-->
+    <!--<i class="fa fa-plus mr"></i>{{'msgTemplate.msgTemplate.add'|translate}}-->
+  <!--</button>-->
+  <div class="clear"></div>
+</div>
+<!--页面头部信息 end-->
+
+<!--路由 begin-->
+<router-outlet></router-outlet>
+<!--路由 end-->
+
+<!--信息列表 begin-->
+<div class="panel panel-default table-mbl">
+  <table class="table table-striped" #dataTable="rzhDataTable" [rzhData]="data" (pageChange)="queryDatas($event)">
+    <thead>
+    <tr>
+      <th class="unselectable text-center sort-num">{{'msgTemplate.msgTemplate.number'|translate}}</th>
+      <th class="col-lg-2  unselectable text-center">{{'msgTemplate.msgTemplate.code'|translate}}</th>
+      <th class="col-lg-3  unselectable text-center">{{'msgTemplate.msgTemplate.name'|translate}}</th>
+      <th class="col-lg-4  unselectable text-center">{{'msgTemplate.msgTemplate.summary'|translate}}</th>
+      <th class="col-lg-2  unselectable text-center">{{'msgTemplate.msgTemplate.opp'|translate}}</th>
+    </thead>
+    <tbody>
+    <tr class="text-center" *ngFor="let notify of dataTable.data;let i = index" #men id="menList{{i}}">
+      <td class="pl">{{i+1}}</td>
+      <td>{{notify.notifyCode}}</td>
+      <td>{{notify.title}}</td>
+      <td>{{notify.summary}}</td>
+      <td>
+        <button class="mb-sm btn-xs btn btn-primary btn-outline" type="button" (click)="toAddOrEdit(notify.notifyCode)">
+          <i class="fa fa-file-text-o mr"></i>{{'msgTemplate.msgTemplate.lookChange'|translate}}
+        </button>
+      </td>
+    </tr>
+    </tbody>
+    <!--<tfoot>-->
+    <!--<tr>-->
+      <!--<td colspan="10">-->
+        <!--<div class="col-sm-5">-->
+          <!--<div class="text-muted">-->
+            <!--<strong>{{'msgTemplate.msgTemplate.No'|translate}} {{data.genStartRow()}} {{'msgTemplate.msgTemplate.to'|translate}} {{data.genEndRow()}} {{'msgTemplate.msgTemplate.strip'|translate}}，{{'msgTemplate.msgTemplate.row'|translate}} {{data.totalRow}}{{'msgTemplate.msgTemplate.strip'|translate}}</strong>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="col-sm-7">-->
+          <!--<div class="pull-right">-->
+            <!--<rzhBootstrapPaginator></rzhBootstrapPaginator>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</td>-->
+    <!--</tr>-->
+    <!--</tfoot>-->
+
+  </table>
+</div>
+<!--信息列表 end-->

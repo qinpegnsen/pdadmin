@@ -1,0 +1,204 @@
+<!--页面头部信息 begin-->
+<div class="content-heading">
+  {{teacherDetail.name}} {{'assistant.teacherDetail.detail'|translate}}
+  <button class="btn btn-warning pull-right" (click)="goBack()"><i class="fa fa-reply-all mr"></i>{{'assistant.teacherDetail.back'|translate}}</button>
+</div><!--页面头部信息 end-->
+<div class="row">
+  <!--左侧老师信息 Begin-->
+  <div class="col-md-6">
+    <!--老师信息表单 Begin-->
+    <form class="form-validate form-horizontal" novalidate #updateTeacher="ngForm" (ngSubmit)="onSubmit(updateTeacher)">
+      <div class="panel panel-default">
+        <!--老师信息修改表单主体-->
+        <div class="panel-body text-center">
+          <div class="h4 text-center">{{'assistant.teacherDetail.teacherInfo'|translate}}</div>
+          <hr>
+          <!--</div>-->
+          <div class="row pv-lg">
+            <fieldset>
+              <div class="form-group col-sm-offset-1">
+                <label class="col-sm-3 control-label">{{'assistant.teacherDetail.name'|translate}}:</label>
+                <div class="col-sm-7">
+                  <input class="form-control" type="text" name="name" [(ngModel)]="teacherDetail.name"
+                    placeholder="{{'assistant.teacherDetail.nameTitle'|translate}}" readonly/>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <div class="form-group col-sm-offset-1">
+                <label class="col-sm-3 control-label">{{'assistant.teacherDetail.phone'|translate}}:</label>
+                <div class="col-sm-7">
+                  <input class="form-control" type="text" name="phone" [(ngModel)]="teacherDetail.phone"
+                    placeholder="{{'assistant.teacherDetail.phoneTitle'|translate}}" readonly/>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <div class="form-group col-sm-offset-1">
+                <label class="col-sm-3 control-label">{{'assistant.teacherDetail.email'|translate}}:</label>
+                <div class="col-sm-7">
+                  <input class="form-control" type="text" name="email" maxlength="256" [(ngModel)]="teacherDetail.email"
+                    placeholder="{{'assistant.teacherDetail.emailTitle'|translate}}" readonly/>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <div class="form-group col-sm-offset-1">
+                <label class="col-sm-3 control-label">{{'assistant.teacherDetail.sex'|translate}}:</label>
+                <div class="col-sm-7">
+                  <select class="form-control" name="sex" [(ngModel)]="teacherDetail.sex" readonly>
+                    <option *ngFor="let state of Gender" value="{{state.key}}">{{state.val}}</option>
+                  </select>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <div class="form-group col-sm-offset-1">
+                <label class="col-sm-3 control-label"><i>*</i>{{'assistant.teacherDetail.state'|translate}}</label>
+                <div class="col-sm-7">
+                  <select class="form-control" name="state" required [(ngModel)]="teacherDetail.state" ngModel>
+                    <option *ngFor="let state of teacherState" value="{{state.key}}">{{state.val}}</option>
+                  </select>
+                </div>
+              </div>
+            </fieldset>
+            <!--<fieldset>-->
+              <!--<div class="form-group col-sm-offset-1">-->
+                <!--<label class="col-sm-3 control-label">{{'assistant.teacherDetail.age'|translate}}:</label>-->
+                <!--<div class="col-sm-7">-->
+                  <!--<input class="form-control" type="number" min="1" name="age" [(ngModel)]="teacherDetail.age" readonly/>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</fieldset>-->
+            <fieldset>
+              <div class="form-group col-sm-offset-1">
+                <label class="col-sm-3 control-label">{{'assistant.teacherDetail.oldPassword'|translate}}:</label>
+                <div class="col-sm-7">
+                  <input class="form-control" type="password" name="oldPossword" minlength="6" maxlength="18" ngModel placeholder="初始密码为手机号"/>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <div class="form-group col-sm-offset-1">
+                <label class="col-sm-3 control-label">{{'assistant.teacherDetail.newPassword'|translate}}:</label>
+                <div class="col-sm-7">
+                  <input class="form-control" type="password" name="newPossword" minlength="6" maxlength="18" ngModel/>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <div class="form-group col-sm-offset-1">
+                <label class="col-sm-3 control-label">{{'assistant.teacherDetail.nativeLanguage'|translate}}:</label>
+                <div class="col-sm-7">
+                  <input class="form-control" type="text" name="nativeLanguage"
+                    [(ngModel)]="teacherDetail.nativeLanguage" readonly/>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <div class="form-group col-sm-offset-1">
+                <label class="col-sm-3 control-label">{{'assistant.teacherDetail.timezone'|translate}}:</label>
+                <div class="col-sm-7">
+                  <select class="form-control" name="timezone" [(ngModel)]="teacherDetail.timeZone" ngModel readonly>
+                    <option *ngFor="let item of timezones" value="{{item.zoneId}}">{{item.timezone}}</option>
+                  </select>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">{{'assistant.teacherDetail.isAssess'|translate}}:</label>
+                <div class="col-sm-7 text-left">
+                  <label class="checkbox-inline c-checkbox">
+                    <input type="checkbox" value="isAssess" name="isAssess" [(ngModel)]="teacherDetail.isAssess"/>
+                    <span class="fa fa-check"></span>{{'assistant.teacherDetail.assess'|translate}}</label>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">{{'assistant.teacherDetail.isConsult'|translate}}:</label>
+                <div class="col-sm-7 text-left">
+                  <label class="checkbox-inline c-checkbox">
+                    <input type="checkbox" value="isConsult" name="isConsult" [(ngModel)]="teacherDetail.isConsult"/>
+                    <span class="fa fa-check"></span>{{'assistant.teacherDetail.consult'|translate}}</label>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <!--老师信息修改表单主体 End-->
+        <!--老师信息修改表单按钮 Begin-->
+        <div class="panel-footer text-center">
+          <div class="btn-group">
+            <button class="btn btn-primary btn-lg" type="submit">{{'assistant.teacherDetail.change'|translate}}</button>
+            <button class="btn btn-danger btn-lg" *ngIf="teacherDetailNew.state === 'Frozen'" type="button"
+              (click)="deleteTutors()">{{'assistant.teacherDetail.delete'|translate}}
+            </button>
+          </div>
+        </div>
+        <!--老师信息修改表单按钮 End-->
+      </div>
+    </form>
+    <!--老师信息表单 End-->
+  </div>
+  <!--左侧老师信息 End-->
+  <!--教师工作时间 start-->
+  <div class="col-md-6">
+  <div class="panel panel-default">
+    <div class="panel-body text-overflow">
+      <div class="h4 text-center">{{'assistant.teacherDetail.worktime'|translate}}</div>
+      <hr>
+      <table class="table table-striped child-table">
+        <thead>
+        <tr>
+          <th class="text-center">{{'assistant.teacherDetail.No'|translate}}</th>
+          <th class="text-center">{{'assistant.teacherDetail.startTime'|translate}}</th>
+          <th class="text-center">{{'assistant.teacherDetail.endTime'|translate}}</th>
+          <th class="text-center">{{'assistant.teacherDetail.week'|translate}}</th>
+          <th class="text-center">{{'assistant.teacherDetail.opp'|translate}}</th>
+        </tr>
+        </thead>
+        <tbody *ngIf="teacherDetail.tutorWorktimes">
+        <tr *ngFor="let time of teacherDetail.tutorWorktimes; let i = index">
+          <td class="text-center">{{i+1}}</td>
+          <td class="text-center">{{time.startTime}}</td>
+          <td class="text-center">{{time.endTime}}</td>
+          <td class="text-center">{{time.week}}</td>
+          <td class="text-center">
+            <button class="mb-sm btn btn-danger" type="button" (click)="delWorkTime(time.worktimeCode)"><i class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <hr>
+      <div class="form-group ">
+        <form class="form-validate form-horizontal" novalidate #workTime="ngForm" (ngSubmit)="addWorkTime(workTime)">
+          <div class="col-xs-6">
+            <label for="startTime">{{'assistant.teacherDetail.startTime'|translate}}:</label> <input class="form-control" id="startTime" name="startTime"
+            #startTime required ngModel type="time">
+          </div>
+          <div class="col-xs-6">
+            <label for="endTime">{{'assistant.teacherDetail.endTime'|translate}}:</label> <input class="form-control" id="endTime" name="endTime" #endTime
+            required ngModel type="time">
+          </div>
+          <div class="form-group ml">
+            <div class="w100 overflow">
+              <div class="checkbox c-checkbox pull-left m" *ngFor="let week of weeks">
+                <label>
+                  <input type="checkbox" name="week" required value="{{week.key}}" ngModel (change)="selWeek($event)"/>
+                  <span class="fa fa-check"></span>{{week.key}}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-8 col-xs-offset-2">
+            <button class="btn btn-info form-control" type="submit">{{'assistant.teacherDetail.addWorkTime'|translate}}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>
+  <!--教师工作时间 end-->
+</div>

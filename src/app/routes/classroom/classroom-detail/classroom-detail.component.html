@@ -1,0 +1,328 @@
+<!--课堂详情头部 begin-->
+<div class="content-heading">
+  {{'classroom.classroomDetail.classroomDetail'|translate}}
+  <button class="btn btn-warning pull-right" (click)="goBack()"><i class="fa fa-reply-all mr"></i>{{'classroom.classroomDetail.back'|translate}}
+  </button>
+</div>
+<!--课堂详情头部 end-->
+<!--课堂详情信息 begin-->
+<div class="panel panel-default">
+  <div class="panel-body">
+    <div class="row">
+      <!--人物信息 begin-->
+      <div class="col-md-6">
+        <p class="lead bb font18 text-info"><i class="fa fa-users mr-5"></i>{{'classroom.classroomDetail.peopleInfo'|translate}}
+        </p>
+        <form class="form-horizontal p-20">
+          <div class="form-group" *ngIf="classroomInfo.classroomTutors">
+            <div class="col-sm-4">{{'classroom.classroomDetail.name'|translate}}:</div>
+            <div class="col-sm-8">
+              <strong>{{classroomInfo.classroomTutors[0] && classroomInfo.classroomTutors[0].tutorName}}</strong>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="classroomInfo.classroomTutors">
+            <div class="col-sm-4">{{'classroom.classroomDetail.email'|translate}}:</div>
+            <div class="col-sm-8">
+              <strong>{{classroomInfo.classroomTutors[0] && classroomInfo.classroomTutors[0].tutorEmail}}</strong>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="classroomInfo.classroomStudentses">
+            <div class="col-sm-4">{{'classroom.classroomDetail.attendStudent'|translate}}:</div>
+            <div class="col-sm-8 word-break">
+              <strong *ngFor="let student of attendStuList;let i = index">
+                {{student.studentName}}({{student.studentEmail}})
+                <span *ngIf="i!=attendStuList.length-1">、</span>
+              </strong>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="classroomInfo.classroomStudentses">
+            <div class="col-sm-4">{{'classroom.classroomDetail.absentStudent'|translate}}:</div>
+            <div class="col-sm-8 word-break">
+              <strong *ngFor="let student of absentStuList;let i=index;">
+                {{student.studentName}}({{student.studentEmail}})
+                <span *ngIf="i!=absentStuList.length-1">、</span>
+              </strong>
+
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-4">{{'classroom.classroomDetail.assistantName'|translate}}:</div>
+            <div class="col-sm-8">
+              <strong>{{classroomInfo.assistantName}}</strong>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-4">{{'classroom.classroomDetail.assistantEmail'|translate}}:</div>
+            <div class="col-sm-8">
+              <strong>{{classroomInfo.assistantEmail}}</strong>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!--人物信息 end-->
+      <!--课堂信息 begin-->
+      <div class="col-md-6">
+        <p class="lead bb font18 text-info"><i class="fa fa-book mr-5"></i>{{'classroom.classroomDetail.classroomInfo'|translate}}
+        </p>
+        <form class="form-horizontal p-20">
+          <div class="form-group">
+            <div class="col-sm-4">{{'classroom.classroomDetail.course'|translate}}:</div>
+            <div class="col-sm-8">
+              <strong>{{classroomInfo.course}}</strong>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-4">{{'classroom.classroomDetail.duration'|translate}}:</div>
+            <div class="col-sm-8">
+              <strong>{{classroomInfo.duration}}</strong>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-4">{{'classroom.classroomDetail.startTime'|translate}}:</div>
+            <div class="col-sm-8">
+              <strong>{{classroomInfo.startTime && tools.UTCToDate(classroomInfo.startTime)}}</strong>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-4">{{'classroom.classroomDetail.isVideo'|translate}}:</div>
+            <div class="col-sm-8">
+              <strong>{{classroomInfo.isVideo}}</strong>
+            </div>
+          </div>
+          <!--<div class="form-group">-->
+          <!--<div class="col-sm-4">{{'classroom.classroomDetail.isCancel'|translate}}:</div>-->
+          <!--<div class="col-sm-8">-->
+          <!--<strong>{{classroomInfo.isCancel}}</strong>-->
+          <!--</div>-->
+          <!--</div>-->
+          <div class="form-group">
+            <div class="col-sm-4">{{'classroom.classroomDetail.updateTime'|translate}}:</div>
+            <div class="col-sm-8">
+              <strong>{{classroomInfo.updateTime && tools.UTCToDate(classroomInfo.updateTime)}}</strong>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!--课堂信息 end-->
+      <!--预约留言 begin-->
+      <div class="col-md-12" *ngIf="classroomInfo.classroomLeavemessage">
+        <p class="lead bb font18 text-info">
+          <i class="fa fa-comment mr-5"></i>{{'classroom.classroomDetail.leaveMsg'|translate}}
+          <span class="pull-right text-gray-dark">{{classroomInfo.classroomLeavemessage.createTime && tools.UTCToDate(classroomInfo.classroomLeavemessage.createTime)}}</span>
+        </p>
+        <form class="form-horizontal p-20">
+          <div class="form-group">
+            <div class="col-sm-12">
+              {{'classroom.classroomDetail.Msg'|translate}}:<strong>{{classroomInfo.classroomLeavemessage.leaveMessage}}</strong>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!--预约留言 end-->
+      <!--助教进入课堂 begin-->
+      <div class="col-md-12"
+           *ngIf="classroomInfo.state=='Confirmed' && classroomInfo.classroomZoom && classroomInfo.classroomZoom.joinUrl && classroomInfo.classroomZoom.startUrl">
+        <p class="lead bb font18 text-info">
+          <i class="fa fa-comment mr-5"></i>{{'classroom.classroomDetail.assistantEnteringClass'|translate}}
+        </p>
+        <form class="form-horizontal pl-20 pt0 pr-20 pb0">
+          <div class="form-group">
+            <div class="col-sm-12">
+              <a class="btn btn-info mr-20" href="{{classroomInfo.classroomZoom.joinUrl}}" target="_blank">{{'classroom.classroomDetail.studentIn'|translate}}</a>
+              <a class="btn btn-info" href="{{classroomInfo.classroomZoom.startUrl}}" target="_blank">{{'classroom.classroomDetail.teacherIn'|translate}}</a>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!--助教进入课堂 end-->
+    </div>
+  </div>
+</div>
+<!--课堂详情信息 end-->
+<!--课堂详情Tab begin-->
+<div class="panel panel-default">
+  <div class="panel-body">
+    <tabset [justified]="true">
+      <!--课堂追踪 begin-->
+      <tab>
+        <ng-template tabHeading><i class="fa fa-thumb-tack mr-5"></i>{{'classroom.classroomDetail.classroomTraces'|translate}}
+        </ng-template>
+        <div *ngIf="classroomInfo.classroomTraces" class="overflow">
+          <ul [ngClass]="timelineAlt ? 'timeline-alt' : 'timeline'">
+            <li class="timeline-separator" data-datetime="Now"></li>
+            <!-- START timeline item-->
+            <li *ngFor="let trace of classroomInfo.classroomTraces;let i = index"
+                [ngClass]="i%2 === 1 ? 'timeline-inverted':''" [ngStyle]="{'margin-top':i==1 ? '50px' : '0px' }">
+              <div class="timeline-badge primary" title="{{trace.createTime}}">
+                <em class="fa fa-users"></em>
+              </div>
+              <div class="timeline-panel">
+                <div class="popover">
+                  <h4 class="popover-title">{{trace.event}}<span class="pull-right text-muted font12">{{tools.UTCToDate(trace.createTime)}}</span>
+                  </h4>
+                  <div class="arrow"></div>
+                  <div class="popover-content">
+                    <p>{{trace.optName}}
+                      <br/>
+                      <small>{{trace.summary}}</small>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <!--留言 star-->
+            <li id="message">
+              <div class="timeline-badge success">
+                <em class="fa fa-comment-o"></em>
+              </div>
+              <div class="timeline-panel">
+                <div class="popover right">
+                  <h4 class="popover-title text-right">留言板块
+                    <!--<span class="text-muted pull-right">{{log.Confirmed.createTime|moment:'YYYY-MM-DD HH:mm'}}</span>-->
+                  </h4>
+                  <div class="arrow"></div>
+                  <div class="popover-content">
+                    <ng-container *ngFor="let item of messageArrLsit;let i=index;">
+                      <p>{{item.studentName}}</p>
+                      <div class="order-result text-center bg pl pr messageScoll p0"
+                           style="max-height: 300px;overflow-y: auto">
+                        <ul class="messageBox pl0">
+                          <ng-container *ngFor="let obj of item.messageInfo;let j=index;">
+                            <li class="relative pb0 pt-5" *ngIf="splitStr(obj.createTime,item.messageInfo,j)"
+                                [ngClass]="{'pt':i==0}"
+                            >
+                              <div class="text-center">
+                                <span class="myTime pl-5 pr-5">{{splitStr(obj.createTime,item.messageInfo,j)}}</span>
+                              </div>
+                            </li>
+                            <li class="relative">
+                              <div class="text-left"
+                                   [ngClass]="{'text-left':obj.sender=='STUDENT','text-right':obj.sender=='TUTOR'}"
+                              >
+                                <img src="{{obj.img}}" class="messagePic"
+                                     [ngClass]="{'floatRight':obj.sender=='TUTOR'}"
+                                     onerror="javascript:this.src='../../../../assets/img/user.png'"/>
+                                <span [ngClass]="{'floatRight':obj.sender=='TUTOR','mt-6':obj.sender=='TUTOR','pr-5':obj.sender=='TUTOR','lineHeight30':obj.sender=='STUDENT'}">{{obj.messageContent}}</span>
+                                <span class="clearfix"></span>
+                              </div>
+                            </li>
+                          </ng-container>
+                          <ng-container *ngIf="!item.messageInfo.length">
+                            暂无留言信息
+                          </ng-container>
+                        </ul>
+                      </div>
+                      <div class="relative mb-5">
+                        <span class="clearfix"></span>
+                      </div>
+                    </ng-container>
+                    <ng-container *ngIf="!messageArrLsit.length">
+                      暂无留言信息
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <!--留言 end-->
+
+            <li class="timeline-end">
+              <span class="timeline-badge info">
+                <em class="fa fa-ellipsis-h"></em>
+              </span>
+            </li>
+            <!-- END timeline separator-->
+          </ul>
+        </div>
+      </tab>
+      <!--课堂追踪 end-->
+      <!--课堂反馈 begin-->
+      <tab [active]="bol">
+        <ng-template tabHeading><i class="fa fa-bell mr-5"></i>{{'classroom.classroomDetail.feedback'|translate}}
+        </ng-template>
+        <div class="list-group" *ngIf="classroomInfo.classroomFeedbacks">
+          <div class="table-responsive list-group-item" *ngFor="let feedback of classroomInfo.classroomFeedbacks">
+            <table class="table">
+              <tbody>
+              <tr>
+                <!--<td class="b0 wd-xs hidden-xs">-->
+                <!--<a>-->
+                <!--<ng-container *ngFor="let student of classroomInfo.classroomStudentses">-->
+                <!--<img *ngIf="student.student.studentCode == feedback.studentCode" class="img-responsive thumb64" [src]="student.student.avatar" onerror="javascript:this.src='../../../../assets/img/user/user.png'"/>-->
+                <!--</ng-container>-->
+                <!--</a>-->
+                <!--</td>-->
+                <td class="b0">
+                  <p class="h4 mt0 mb0">
+                    <small class="text-muted" *ngIf="feedback.feedbackMan=='Tutor'">
+                      {{classroomInfo.classroomTutors[0].tutorName}} @{{feedback.studentName}}
+                    </small>
+                    <small class="text-muted" *ngIf="feedback.feedbackMan=='Student'">{{feedback.studentName}}
+                      @{{classroomInfo.classroomTutors[0].tutorName}}
+                    </small>
+                    <!--<span class="label bg-gray-lighter ph-lg mr text-sm visible-lg-inline pull-right">-->
+                    <!--<span class="text-muted"><i class="fa fa-star mr-5"></i>{{feedback.starLevel}}</span>-->
+                    <!--</span>-->
+                  </p>
+                  <small class="text-muted font14 breakAll mt-5 mb-5" style="display: block;" *ngIf="feedback.feedbackMan=='Student'"
+                         [innerHTML]="feedback.remark |questionSplit :true |safeHtml">
+                    <br/><span class="font12">{{tools.UTCToDate(feedback.createTime)}}</span>
+                  </small>
+                  <rating *ngIf="feedback.feedbackMan=='Student'" [(ngModel)]="feedback.starLevel" [max]="5"
+                          [readonly]="true" stateOn="fa fa-star" stateOff="fa fa-star-o"
+                          style="color: #f5e61b; font-size: 20px"></rating>
+                  <small class="text-muted font14 breakAll mt-5 mb-5" style="display: block;"
+                         *ngIf="feedback.feedbackMan=='Student'" [innerHTML]="feedback.feedback |questionSplit |safeHtml">{{feedback.feedback}}
+                    <br/><span class="font12">{{tools.UTCToDate(feedback.createTime)}}</span>
+                  </small>
+                  <ng-container *ngIf="feedback.feedbackMan=='Tutor'">
+                    <small class="text-muted font14 breakAll mt-5 mb-5" style="display: block;"
+                           [innerHTML]="feedback.schedule |questionSplit |safeHtml" *ngIf="feedback.schedule">
+                      <br/><span class="font12">{{tools.UTCToDate(feedback.createTime)}}</span>
+                    </small>
+                    <small class="text-muted font14 breakAll mt-5 mb-5" style="display: block;"
+                           [innerHTML]="feedback.feedback |questionSplit |safeHtml" *ngIf="feedback.feedback">
+                      <br/><span class="font12">{{tools.UTCToDate(feedback.createTime)}}</span>
+                    </small>
+                    <small class="text-muted font14 breakAll mt-5 mb-5" style="display: block;"
+                           [innerHTML]="feedback.remark |questionSplit  |safeHtml" *ngIf="feedback.remark">
+                      <br/><span class="font12">{{tools.UTCToDate(feedback.createTime)}}</span>
+                    </small>
+                  </ng-container>
+
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </tab>
+      <!--课堂反馈 end-->
+      <!--课堂视频 begin-->
+      <tab>
+        <ng-template tabHeading><i class="fa fa-video-camera mr-5"></i>{{'classroom.classroomDetail.video'|translate}}
+        </ng-template>
+        <div class="text-center">
+          <p *ngIf="classroomInfo.classroomVideoList==0"
+             class="text-muted text-center mt">{{'classroom.classroomDetail.noVideo'|translate}}</p>
+          <ng-container *ngIf="classroomInfo.classroomVideoList.length>0">
+            <div class="mb-5" *ngFor="let item of classroomInfo.classroomVideoList;let i=index;">
+              <p *ngIf="!item.embeddedCode"
+                 class="text-muted text-center mt">{{'classroom.classroomDetail.noVideo'|translate}}</p>
+              <iframe class='sproutvideo-player'
+                      *ngIf="item.embeddedCode"
+                      [src]='item.embeddedCode | videoSrc' width='100%' height='auto' frameborder='0'
+                      allowfullscreen></iframe>
+              <a class="btn btn-primary btn-oval"
+                 *ngIf="item.embeddedCode"
+                 href="{{item.downloadUrl}}" download="{{item.title}}" target="_blank">
+                <i class="fa fa-download"></i>{{'classroom.classroomDetail.downloadVideo'|translate}}</a>
+            </div>
+          </ng-container>
+        </div>
+      </tab>
+      <!--课堂视频 end-->
+    </tabset>
+  </div>
+</div>
+<!--课堂详情Tab end-->

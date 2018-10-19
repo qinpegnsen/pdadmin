@@ -1,0 +1,58 @@
+<!--系统设置头部 Begin-->
+<div class="content-heading">{{'system.systemSettings'|translate}}</div>
+<!--系统设置头部 End-->
+<!--系统设置主体表格 Begin-->
+<div class="panel panel-default">
+  <div class="panel-body">
+    <table class="table table-striped" #adminsData="rzhDataTable" [rzhData]="categoryData"
+      (pageChange)="queryDatas($event)">
+      <!--表格表头 Begin-->
+      <thead>
+      <tr>
+        <th style="width: 10%"  class="text-center">
+          <span by="number">{{'system.number'|translate}}</span>
+        </th>
+        <th style="width: 25%">
+          <span by="category">{{'system.optionsName'|translate}}</span>
+        </th>
+        <th style="width: 30%">
+          <span by="superCode">{{'system.summary'|translate}}</span>
+        </th>
+        <th style="width: 25%">
+          <span by="state">{{'system.optionsValue'|translate}}</span>
+        </th>
+        <th style="width: 10%">
+          <span by="operation">{{'system.opp'|translate}}</span>
+        </th>
+      </tr>
+      </thead>
+      <!--表格表头 End-->
+      <!--表格主体信息 Begin-->
+      <tbody>
+      <tr *ngFor="let data of sysData;let i = index">
+        <td class="text-center">{{i+1}}</td>
+        <td>{{data.k}}</td>
+        <td *ngIf="data.set; else summaryBox">
+          <input class="form-control" type="text" name="summary" #summary="ngModel" [(ngModel)]="data.clone.summary" ngModel
+          placeholder="{{'system.summaryTitle'|translate}}"/>
+        </td>
+        <template #summaryBox><td>{{data.summary || "null"}}</td></template>
+        <td *ngIf="data.set; else vBox"><input class="form-control" type="text" name="v" #v="ngModel" [(ngModel)]="data.clone.v" ngModel
+          placeholder="{{'system.optionsValueTitle'|translate}}"/></td>
+        <template #vBox><td>{{data.v}}</td></template>
+        <td *ngIf="data.set; else btnBox">
+          <button class="mb-sm btn btn-success" type="button" (click)="modifySys(data)"><i class="fa fa-check"></i></button>
+          <button class="mb-sm btn btn-danger" type="button" (click)="noSet(data)"><i class="fa fa-times"></i></button>
+        </td>
+        <template #btnBox>
+          <td>
+            <button class="mb-sm btn btn-primary" type="button" (click)="set(data)"><i class="fa fa-edit"></i></button>
+          </td>
+        </template>
+      </tr>
+      </tbody>
+      <!--表格主体信息 End-->
+    </table>
+  </div>
+</div>
+<!--系统设置主体表格 Begin-->

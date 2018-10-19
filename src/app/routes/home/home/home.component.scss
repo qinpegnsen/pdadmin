@@ -1,0 +1,28 @@
+@import '../../../shared/styles/app/variables.scss';
+@import '../../../shared/styles/app/media-queries.scss';
+
+.home-container {
+    margin: 0 auto;
+    max-width: $container-md;
+
+    .home-logo {
+        width: 240px;
+    }
+
+    .home-text {
+        @media only screen and (max-width: $mq-tablet) {
+            text-align: center;
+        }
+    }
+}
+
+//图表信息
+.echarts-info {
+  height: 410px;
+}
+
+//快捷操作模块，鼠标临近时
+.home-quick .col-xs-6:hover{
+  background: #F4F4F4;
+  cursor: pointer;
+}

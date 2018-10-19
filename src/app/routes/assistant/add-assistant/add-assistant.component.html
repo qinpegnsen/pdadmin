@@ -1,0 +1,100 @@
+<!--右侧添加助教 Begin-->
+<div class="rightpage" [class.operationpage-open]="isOpen">
+  <!--右侧添加助教表单 Begin-->
+  <form class="form-validate form-horizontal" novalidate #addAssistant="ngForm" (ngSubmit)="onSubmit(addAssistant);"
+    style="height: 100%">
+    <div class="panel-default">
+      <!--表单头部 Begin-->
+      <div class="addTitle">
+        <h3 class="panel-title">{{'assistant.addAssistant.addAssistant'|translate}}</h3>
+      </div>
+      <!--表单头部 End-->
+      <!--表单主体 Begin-->
+      <div class="panel-body">
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label"><i>*</i>{{'assistant.addAssistant.assistantName'|translate}}</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" name="name" required #assName="ngModel" [pattern]="patterns.noSpace" ngModel placeholder="{{'assistant.addAssistant.assistantNameTitle'|translate}}" />
+            </div>
+          </div>
+          <div class="col-sm-8 pull-right text-danger" [hidden]="assName.valid || assName.pristine">
+            {{'assistant.addAssistant.assistantNameTitle'|translate}}
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label"><i>*</i>{{'assistant.addAssistant.assistantPhone'|translate}}</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" name="phone" required #phone="ngModel"
+                ngModel placeholder="{{'assistant.addAssistant.assistantPhoneTitle'|translate}}"/>
+            </div>
+          </div>
+          <div [hidden]="phone.valid || phone.pristine" class="col-sm-8 pull-right text-danger">
+            {{'assistant.addAssistant.assistantPhoneTitle'|translate}}
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label"><i>*</i>{{'assistant.addAssistant.assistantEmail'|translate}}</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" required name="email" [pattern]="patterns.email" #email="ngModel"
+                ngModel placeholder="{{'assistant.addAssistant.assistantEmailTitle'|translate}}"/>
+            </div>
+          </div>
+          <div [hidden]="email.valid || email.pristine" class="col-sm-8 pull-right text-danger">
+            {{'assistant.addAssistant.assistantEmailTitle'|translate}}
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label"><i>*</i>{{'assistant.addAssistant.state'|translate}}</label>
+            <div class="col-sm-7">
+              <select class="form-control" name="manageState" required ngModel *ngIf="settings.user.manageState === 'Super'">
+                <option *ngFor="let state of manageState" value="{{state.key}}">{{state.val}}</option>
+              </select>
+              <select class="form-control" name="manageState" required ngModel *ngIf="settings.user.manageState === 'General'">
+                <option value="General">General</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label"><i>*</i>{{'assistant.addAssistant.timeZone'|translate}}</label>
+            <div class="col-sm-7">
+              <select class="form-control" name="timeZone" required ngModel>
+                <option *ngFor="let item of timezones" value="{{item.zoneId}}">{{item.timezone}}</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+        <!--图片上传 begin-->
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">{{'assistant.addAssistant.updataAvator'|translate}}</label>
+            <div class="col-sm-9">
+              <label for="file2" class="file-upload">
+                <!--<button class="btn btn-default btn-block">更换头像</button>-->
+                <input id="file2" type="file" (change)="upload(fileUpload)" #fileUpload/>
+              </label>
+              <div class="avatar" >
+                <img [src]="imgBase64 || '../../../../assets/img/user/user.png'" alt="" #img/>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <!--图片上传 end-->
+      </div>
+      <!--表单主体 End-->
+      <!--表单底部btn Begin-->
+      <div class="panel-footer text-center" style="position: absolute;width: 100%;bottom:0;">
+        <button class="ml btn btn-default mr pull-left" type="button" (click)="cancelAdd()">{{'assistant.addAssistant.cancel'|translate}}</button>
+        <button class="ml btn btn-info pull-left" type="submit">{{'assistant.addAssistant.add'|translate}}</button>
+      </div>
+      <!--表单底部btn End-->
+    </div>
+  </form>
+  <!--表单内容 End-->
+</div>
+<!--右侧表单容器 End-->

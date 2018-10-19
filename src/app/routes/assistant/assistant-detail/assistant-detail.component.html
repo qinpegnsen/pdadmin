@@ -1,0 +1,133 @@
+<!--页面头部信息 begin-->
+<div class="content-heading">
+  {{AssistantDetail.name}} {{'assistant.assistantDetail.detail'|translate}}
+  <button class="btn btn-warning pull-right" (click)="goBack()"><i class="fa fa-reply-all mr"></i>{{'assistant.assistantDetail.back'|translate}}</button>
+</div>
+<!--页面头部信息 end-->
+
+<div class="row">
+  <!--左侧助教信息区域 Begin-->
+  <div class="col-md-6">
+    <!--显示助教相关信息区域 Begin-->
+    <div class="panel panel-default">
+      <div class="panel-body text-center">
+        <div class="row">
+          <div class="col-xs-4">
+            <img class="center-block img-responsive img-circle thumb64"  src="{{AssistantDetail.avatar}}"
+              onerror="javascript:this.src='../../../../assets/img/user/user.png'" alt="Contact"/>
+            <h4 class=" text-nowrap text-overflow">{{AssistantDetail.name}}</h4>
+          </div>
+          <div class="col-xs-8">
+            <p class="text-left text-nowrap text-overflow"><em class="fa fa-phone fa-fw mr-5"></em>Tel:
+              {{AssistantDetail.phone}} </p>
+            <p class="text-left text-nowrap text-overflow"><em class="fa fa-envelope fa-fw mr-5"></em>Email:
+              {{AssistantDetail.email}} </p>
+            <p class="text-left text-nowrap text-overflow"><em class="fa fa-map-marker fa-fw mr-5"></em>timeZone:
+              {{AssistantDetail.timeZone}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--显示助教相关信息区域 End-->
+    <!--修改助教信息表单区域 Begin-->
+    <div class="panel panel-default">
+      <form class="form-validate form-horizontal" novalidate #updateAssistant="ngForm"
+        (ngSubmit)="onSubmit(updateAssistant)">
+        <div class="panel-body">
+          <div class="h4 text-center">{{'assistant.assistantDetail.changeAssistantInfo'|translate}}</div>
+          <hr>
+          <div class="row pv-lg">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10">
+              <fieldset>
+                <div class="form-group">
+                  <label class="col-sm-4 control-label"><i>*</i>{{'assistant.assistantDetail.name'|translate}}</label>
+                  <div class="col-sm-8">
+                    <input class="form-control" type="text" name="name" required [(ngModel)]="AssistantDetailNew.name"
+                      #assName="ngModel" placeholder="{{'assistant.assistantDetail.nameTitle'|translate}}" [pattern]="patterns.noSpace"/>
+                  </div>
+                </div>
+                <div class="col-sm-8 pull-right text-danger" [hidden]="assName.valid || assName.pristine">
+                  {{'assistant.assistantDetail.nameTitle'|translate}}
+                </div>
+              </fieldset>
+              <fieldset>
+                <div class="form-group">
+                  <label class="col-sm-4 control-label"><i>*</i>{{'assistant.assistantDetail.phone'|translate}}</label>
+                  <div class="col-sm-8">
+                    <input class="form-control" type="text" name="phone" required [(ngModel)]="AssistantDetailNew.phone" #assPhone="ngModel"  ngModel placeholder="{{'assistant.assistantDetail.phoneTitle'|translate}}"/>
+                  </div>
+                </div>
+                <div class="col-sm-8 pull-right text-danger" [hidden]="assPhone.valid || assPhone.pristine">
+                  {{'assistant.assistantDetail.phoneTitle'|translate}}
+                </div>
+              </fieldset>
+              <fieldset>
+                <div class="form-group">
+                  <label class="col-sm-4 control-label"><i>*</i>{{'assistant.assistantDetail.email'|translate}}</label>
+                  <div class="col-sm-8">
+                    <input class="form-control" type="text" name="email" required [(ngModel)]="AssistantDetailNew.email"
+                      #assEmail="ngModel" [pattern]="patterns.email" placeholder="{{'assistant.assistantDetail.emailTitle'|translate}}"/>
+                  </div>
+                </div>
+                <div class="col-sm-8 pull-right text-danger" [hidden]="assEmail.valid || assEmail.pristine">
+                  {{'assistant.assistantDetail.emailTitle'|translate}}
+                </div>
+              </fieldset>
+              <fieldset>
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">{{'assistant.assistantDetail.password'|translate}}</label>
+                  <div class="col-sm-8">
+                    <input class="form-control" type="password" name="password" ngModel placeholder="{{'assistant.assistantDetail.passwordTitle'|translate}}"/>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset>
+                <div class="form-group">
+                  <label class="col-sm-4 control-label"><i>*</i>{{'assistant.assistantDetail.timezone'|translate}}</label>
+                  <div class="col-sm-8">
+                    <select class="form-control" name="timezone" required [(ngModel)]="AssistantDetailNew.timeZone" ngModel>
+                      <option *ngFor="let timezone of timezones" value="{{timezone.zoneId}}">{{timezone.timezone}}</option>
+                    </select>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset>
+                <div class="form-group">
+                  <label class="col-sm-4 control-label"><i>*</i>{{'assistant.assistantDetail.state'|translate}}</label>
+                  <div class="col-sm-8">
+                    <select class="form-control" name="state" required [(ngModel)]="AssistantDetailNew.state" ngModel>
+                      <option *ngFor="let state of AssistantState" value="{{state.key}}">{{state.val}}</option>
+                    </select>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset>
+                <div class="form-group">
+                  <label class="col-sm-4 control-label"><i>*</i>{{'assistant.assistantDetail.manageState'|translate}}</label>
+                  <div class="col-sm-8">
+                    <select class="form-control" name="manageState" required [(ngModel)]="AssistantDetailNew.manageState" *ngIf="settings.user.manageState === 'Super'">
+                      <option *ngFor="let state of manageState" value="{{state.key}}">{{state.val}}</option>
+                    </select>
+                    <select class="form-control" name="manageState" required [(ngModel)]="AssistantDetailNew.manageState" *ngIf="settings.user.manageState === 'General'">
+                      <option value="General">General</option>
+                    </select>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-8">
+              <button class="btn btn-info form-control" type="submit">{{'assistant.assistantDetail.changeInfo'|translate}}</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!--修改助教信息表单区域 End-->
+  </div>
+  <!--左侧助教信息区域 End-->
+</div>

@@ -1,0 +1,39 @@
+.modal-content { //弹框样式
+  top: 100px;
+  border-radius: 3px;
+}
+.modal-sm{ //弹框宽度
+  width: 360px;
+}
+.goodscatBottom{ //底部固定
+  position: fixed;width: 100%;bottom:0;
+}
+.node-content-wrapper{
+  width: 100%;
+}
+.rightpage{ //为了兼容手机端
+  width: 30%;
+}
+
+.ng-valid[required], .ng-valid.required  {
+  border-left: 5px solid #42A948; /* green */
+}
+
+.ng-invalid:not(form)  {
+  border-left: 5px solid #a94442; /* red */
+}
+
+@media (max-width: 768px) {
+  .rightpage{ //为了兼容手机端
+    bottom: auto;
+    width: 100%;
+  }
+}
+
+@media all and (min-width: 768px) and (max-width: 992px) {
+  .rightpage{ //为了兼容平板
+    bottom: auto;
+    width: 50%;
+  }
+}
+

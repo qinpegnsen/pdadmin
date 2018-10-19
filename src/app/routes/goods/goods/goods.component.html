@@ -1,0 +1,130 @@
+<!--页面头部信息 begin-->
+<div class="content-heading pb-5">
+  <div class="pull-left">
+    <p>{{'goods.goods.goods'|translate}}</p>
+    <p class="font12 mt-5 text-muted">{{'goods.goods.goodsInfo'|translate}}</p>
+  </div>
+  <button class="btn btn-primary btn-sm pull-right mb" (click)="toAdd()"><i class="fa fa-plus mr"></i>{{'goods.goods.addGoods'|translate}}
+  </button>
+  <div class="clear"></div>
+</div>
+<!--页面头部信息 end-->
+
+<!--课时类型信息 begin-->
+<div class="panel panel-default p col-md-2 node-content-wrapper-100">
+  <div class="text-right">
+    <button (click)="OpenOrClose()" class="btn btn-info"><i class="icon-wrench mr-5"></i>{{'goods.goods.type'|translate}}
+    </button>
+  </div>
+  <hr class="mt mb"/>
+  <!--列表树信息 begin-->
+  <tree-root #tree0 [nodes]="goodsTypeDatas" [focused]="true" [options]="customTemplateStringOptions0">
+    <ng-template #treeNodeTemplate let-node>
+      <div class="tree-info-class" (click)="onEvent(node.data)">
+        <div class="pull-left mr text-info" title="{{node.data.summary}}">{{ node.data.categoryName }}</div>
+        <div class="clear"></div>
+      </div>
+    </ng-template>
+  </tree-root>
+  <!--列表树信息 end-->
+</div>
+<!--课时类型信息 end-->
+<div class="col-md-10 pr0">
+  <!--路由的嵌套 begin-->
+  <router-outlet></router-outlet>
+  <!--路由的嵌套 end-->
+  <div class="panel panel-default table-mbl">
+    <table class="table table-striped" #dataTable="rzhDataTable" [rzhData]="data" (pageChange)="queryDatas($event)">
+      <thead>
+      <tr>
+        <th class="unselectable text-center sort-num">{{'goods.goods.number'|translate}}</th>
+        <th class="col-lg-1  unselectable text-center">{{'goods.goods.goodsPic'|translate}}</th>
+        <th class="col-lg-4  unselectable text-left">{{'goods.goods.info'|translate}}</th>
+        <th class="col-lg-2  unselectable text-center">{{'goods.goods.price'|translate}}</th>
+        <th class="col-lg-1  unselectable text-center">{{'goods.goods.state'|translate}}</th>
+        <th class="col-lg-2  unselectable text-center">{{'goods.goods.creatTime'|translate}}</th>
+        <th class="col-lg-1  unselectable text-center">{{'goods.goods.opp'|translate}}</th>
+      </thead>
+      <tbody>
+      <tr class="text-center" *ngFor="let menu of dataTable.data;let i = index" #men id="menList{{i}}">
+        <td class="pl">{{i+1}}</td>
+        <td>
+          <img (click)="bigImg(menu.mainImage)" class="cursor-pointer" src="{{menu.mainImage}}"
+               onerror="javascript:this.src='../../../../assets/img/dummy.png'" height="60"/>
+          <div class="mt">
+            <a (click)="goUpload(menu.goodsCode)"><i class="icon-pencil mr-5 font12"></i>{{'goods.goods.replace'|translate}}</a>
+          </div>
+        </td>
+        <td class="text-left">
+          <p class="text-info">
+            <span class="text-warning mr-5">[{{menu.courseHourType | state:courseHourTypeNum}}]</span>
+            {{menu.goodsName}}
+
+            <span class="pull-right mr-20 font12" *ngIf="menu.promotionType != 'Common'"
+                  [ngClass]="{'goods-promotion-type-pink':menu.promotionType == 'Group','goods-promotion-type-success':menu.promotionType == 'Discount'}">
+              <i class="mr-5"
+                 [ngClass]="{'icon-handbag':menu.promotionType == 'Group','icon-clock':menu.promotionType == 'Discount'}"></i>
+              {{menu.promotionType | state:goodsPromotionType}}
+            </span>
+          </p>
+          <div [innerHTML]="menu.ad"></div>
+          <p class="mt-5 border-dashed-gainsboro p-2">
+            {{'goods.goods.termOfValidity'|translate}}：{{menu.validityPeriod}} {{'goods.goods.company'|translate}}
+            ({{menu.validityPeriodStartTime | moment:'YYYY-MM-DD'}} ~ {{menu.validityPeriodEndTime |
+            moment:'YYYY-MM-DD'}})<br/>
+          </p>
+          <div #payLink id="payLink" style="white-space:nowrap;color:white;position: absolute;top: 0;">{{menu.payMentLink}}</div>
+        </td>
+        <td>
+          <span class="font22 text-warning mr-5">${{menu.goodsPrice}}</span>
+          <!--<span class="text-decoration-line text-muted">${{menu.goodsPrice}}</span>-->
+          <p>（{{menu.courseHour}}{{'goods.goods.courseHour'|translate}}）</p>
+        </td>
+        <td>
+          <div class="circle circle-lg"
+               [ngClass]="{'circle-success':menu.state == 'Common','circle-muted':menu.state == 'Off','circle-danger':menu.state == 'Forbid'}"
+               tooltip="{{menu.state | state:goodsState}}"></div>
+        </td>
+        <td>
+          <span class="text-muted">（{{'goods.goods.creat'|translate}}）</span><br/>
+          {{menu.createTime| moment:'YYYY-MM-DD'}}<br/>
+          <span class="text-muted">（{{'goods.goods.timezone'|translate}}）</span><br/>
+          {{menu.timeZone}}
+        </td>
+        <td>
+          <button class="mb-sm btn-xs btn btn-primary btn-outline" (click)="updateGoods(menu)">
+            <i class="fa fa-pencil mr-5"></i>{{'goods.goods.change'|translate}}
+          </button>
+          <button class="mb-sm btn-xs btn btn-primary btn-outline mt-5" (click)="copy(payLink)" *ngIf="menu.payMentLink">
+            <i class="fa fa-copy mr-5"></i>{{'goods.goods.copy'|translate}}
+          </button>
+        </td>
+      </tr>
+      </tbody>
+      <tfoot>
+      <tr>
+        <td colspan="10">
+          <div class="col-sm-5">
+            <div class="text-muted"><strong>{{'goods.goods.No'|translate}} {{data.genStartRow()}}
+              {{'goods.goods.to'|translate}} {{data.genEndRow()}}
+              {{'goods.goods.strip'|translate}}，{{'goods.goods.row'|translate}} {{data.totalRow}}
+              {{'goods.goods.strip'|translate}}</strong></div>
+          </div>
+          <div class="col-sm-7">
+            <div class="pull-right">
+              <rzhBootstrapPaginator></rzhBootstrapPaginator>
+            </div>
+          </div>
+        </td>
+      </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+<!--课时类型操作模块 begin-->
+<app-goodscat (close)="OpenOrClose()" (parentNodes)="getChirldNodes($event)" [isOpen]="addOpen"></app-goodscat>
+<!--课时类型操作模块 end-->
+
+<div class="clear"></div>
+

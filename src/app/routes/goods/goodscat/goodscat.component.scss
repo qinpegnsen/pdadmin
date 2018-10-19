@@ -1,0 +1,31 @@
+.modal-content { //弹框样式
+  top: 100px;
+  border-radius: 3px;
+}
+.modal-sm{ //弹框宽度
+  width: 360px;
+}
+.goodscatBottom{ //底部固定
+  position: absolute;width: 100%;bottom:0;
+}
+.node-content-wrapper{
+  width: 100%;
+}
+.rightpage{ //为了兼容手机端
+  width: 30%;
+}
+
+@media (max-width: 768px) {
+  .rightpage{ //为了兼容手机端
+    bottom: auto;
+    width: 100%;
+  }
+}
+
+@media all and (min-width: 768px) and (max-width: 992px) {
+  .rightpage{ //为了兼容平板
+    bottom: auto;
+    width: 50%;
+  }
+}
+

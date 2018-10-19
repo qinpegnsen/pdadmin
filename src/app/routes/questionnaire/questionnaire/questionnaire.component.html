@@ -1,0 +1,137 @@
+<!--教师管理头部 Begin-->
+<div class="content-heading pb-5">
+  <div class="pull-left">
+    <p>{{'questionnaire.questionnaire'|translate}}</p>
+    <p class="font12 mt-5 text-muted">{{'questionnaire.questionnaireDesc'|translate}}</p>
+  </div>
+  <div class="clear"></div>
+</div>
+<!--教师管理头部 End-->
+<!--搜索 begin-->
+<div class="panel p">
+  <form class="form-validate form-horizontal" novalidate #searchForm="ngForm">
+    <fieldset class="mb-5 pb-5 col-md-3 pt pb">
+      <label class="col-sm-4 control-label height-35">{{'questionnaire.course'|translate}}：</label>
+      <div class="col-sm-8 pr0">
+        <select class="form-control" name="courseCode" [(ngModel)]="search.courseCode" ngModel>
+          <option *ngFor="let item of courseData" value="{{item.courseCode}}">{{item.course}}</option>
+        </select>
+      </div>
+    </fieldset>
+    <fieldset class="mb-5 pb-5 col-md-3 pt pb">
+      <label class="col-sm-4 control-label height-35">{{'questionnaire.teacher'|translate}}：</label>
+      <div class="col-sm-8 pr0">
+        <select class="form-control" name="tutorCode" [(ngModel)]="search.tutorCode" ngModel>
+          <option *ngFor="let teacher of teacherList" value="{{teacher.tutorCode}}">{{teacher.name}}</option>
+        </select>
+      </div>
+    </fieldset>
+    <fieldset class="mb-5 pb-5 col-md-6 pt pb">
+      <label class="col-sm-2 control-label height-35 text-right">{{'export.teacher.date'|translate}}：</label>
+      <div class="col-sm-4">
+        <input class="form-control" [(ngModel)]="search.createTimeBegin" type="date" name="createTimeBegin"
+        />
+      </div>
+      <div class="pull-left">
+        —
+      </div>
+      <div class="col-sm-4">
+        <input class="form-control" [(ngModel)]="search.createTimeEnd" type="date" name="createTimeEnd"
+        />
+      </div>
+    </fieldset>
+    <button class="btn btn-info pull-right mt mr-15" (click)="getData(searchForm.value)"><i
+      class="mr icon-magnifier"></i>{{'classroom.classroom.search'|translate}}
+    </button>
+    <button class="btn btn-warning pull-right mt mr" (click)="getData(initSearch);"><i class="mr icon-magnifier"></i>{{'classroom.classroom.all'|translate}}
+    </button>
+    <div class="clear"></div>
+  </form>
+</div>
+<!--搜索 end-->
+
+<!--信息列表 begin-->
+<div class="panel panel-default table-mbl">
+  <table class="table table-striped" #dataTable="rzhDataTable" [rzhData]="classData"
+         (pageChange)="getData(search, $event)">
+    <thead>
+    <tr>
+      <th class="unselectable text-center sort-num w5">{{'classroom.classroom.number'|translate}}</th>
+      <th class="w15  unselectable text-center">{{'classroom.classroom.course'|translate}}</th>
+      <th class="w8  unselectable text-center">{{'classroom.classroom.teacher'|translate}}</th>
+      <th class="w20  unselectable text-center">{{'classroom.classroom.student'|translate}}</th>
+      <th class="w15  unselectable text-center">{{'classroom.classroom.courseTime'|translate}}</th>
+      <th class="w7  unselectable text-center">{{'classroom.classroom.courseType'|translate}}</th>
+      <th class="w5  unselectable text-center">{{'classroom.classroom.state'|translate}}</th>
+      <th class="w10  unselectable text-center">{{'questionnaire.score'|translate}}</th>
+      <th class="w10  unselectable text-center">{{'classroom.classroom.opp'|translate}}</th>
+    </thead>
+    <tbody>
+    <tr class="text-center" *ngFor="let item of dataTable.data;let i = index">
+      <td class="pl">{{i+1}}</td>
+      <td>{{item.course}}</td>
+      <td>{{item.classroomTutors[0].tutorName}}</td>
+      <td>
+        <ng-container *ngIf="item.classroomStudentses.length>0">
+            <span *ngFor="let itemStu of item.classroomStudentses;let i=index;">
+              {{itemStu.studentName}}
+              <ng-container *ngIf="i!=(item.classroomStudentses.length-1)">、</ng-container>
+            </span>
+        </ng-container>
+      </td>
+      <td>{{tools.UTCToDate(item.startTime)| substring:[0,10]}}<br/>{{tools.UTCToDate(item.startTime)|
+        substring:[11,8]}} ~ {{tools.UTCToDate(item.endTime)| substring:[11,8]}}
+      </td>
+      <td>
+        <span class="text-info" *ngIf="item.type == custom">定制课程</span>
+        <span *ngIf="item.type != custom">课表课程</span>
+      </td>
+      <td>
+        <div class="circle circle-lg"
+             [ngClass]="{
+             'circle-warning':item.state == 'Premature',
+             'circle-success':item.state == 'Ended'||item.state == 'Book'||item.state == 'Started'||item.state == 'Confirmed',
+             'circle-danger':item.state == 'Overdue',
+             'circle-muted':item.state == 'Cancel'}"
+             tooltip="{{item.state | state:1003}}"></div>
+      </td>
+      <td *ngIf="item.classroomAverageStar">
+        {{item.classroomAverageStar}}
+      </td>
+      <td *ngIf="!item.classroomAverageStar">
+        【{{'questionnaire.noWtire'|translate}}】
+      </td>
+      <td>
+        <button class="mb-sm btn-xs btn btn-primary btn-outline"
+                (click)="toDetail(item.classroomCode, item.classroomTutors[0].tutorCode)">
+          <i class="fa fa-file-text-o mr-5"></i>{{'questionnaire.radioDetail'|translate}}
+        </button>
+        <button class="mb-sm btn-xs btn btn-primary btn-outline"
+                (click)="toClassDetail(item.classroomCode, item.classroomTutors[0].tutorCode)">
+          <i class="fa fa-file-text-o mr-5"></i>{{'questionnaire.qaDetail'|translate}}
+        </button>
+      </td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+      <td colspan="10">
+        <div class="col-sm-5">
+          <div class="text-muted">
+            <strong>{{'classroom.classroom.No'|translate}} {{classData.genStartRow()}}
+              {{'classroom.classroom.to'|translate}} {{classData.genEndRow()}}
+              {{'classroom.classroom.strip'|translate}}，{{'classroom.classroom.row'|translate}}
+              {{classData.totalRow}}{{'classroom.classroom.strip'|translate}}</strong>
+          </div>
+        </div>
+        <div class="col-sm-7">
+          <div class="pull-right">
+            <rzhBootstrapPaginator></rzhBootstrapPaginator>
+          </div>
+        </div>
+      </td>
+    </tr>
+    </tfoot>
+  </table>
+</div>
+<!--信息列表 end-->

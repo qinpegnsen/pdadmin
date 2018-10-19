@@ -1,0 +1,49 @@
+<div class="content-heading">
+  {{'assistant.bandTeacher.for'|translate}}<span class="ml-5 mr-5 text-info">{{AssistantDetail.name}}</span>{{'assistant.bandTeacher.bandTeacher'|translate}}
+  <button class="btn btn-warning pull-right" (click)="goBack()"><i class="fa fa-reply-all mr"></i>{{'assistant.teacherDetail.back'|translate}}</button>
+</div><!--页面头部信息 end-->
+<div class="row">
+  <div class="col-sm-12">
+    <ul class="prompt">
+      <li>{{'assistant.bandTeacher.promptTitle'|translate}}：</li>
+      <li>1.{{'assistant.bandTeacher.prompt1'|translate}}</li>
+    </ul>
+  </div>
+  <div class="col-xs-12">
+    <div class="col-md-5">
+      <div class="panel panel-default">
+        <div class="panel-heading overflow">
+          <span class="waitBand">{{'assistant.bandTeacher.waitBand'|translate}}</span>
+        </div>
+        <div class="panel-body text-center" dnd-sortable-container [sortableData]="tutors" [dropZones]="['delete-dropZone']" >
+          <ul class="list-group">
+            <li *ngFor="let item of tutors; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i" [dragData]="item" title="{{item.name}}">
+              <div class="pic"><img src="../../../../assets/img/teacher.png" alt=""></div>
+              <p>{{item.name}}</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-2 hidden-xs text-center dropPrompt">
+      <i class="fa fa-arrow-right fa-5x"></i>
+    </div>
+    <div class="col-md-5">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <span class="waitBand">{{'assistant.bandTeacher.isBand'|translate}}</span>
+        </div>
+        <div class="panel-body text-center" dnd-droppable [dropZones]="['delete-dropZone']" (onDropSuccess)="bandTeacher($event)">
+          <ul class="list-group" *ngIf="AssistantDetail.assistantTutorses.length > 0">
+            <li *ngFor="let item of AssistantDetail.assistantTutorses; let i = index" class="list-group-item" title="{{item.tutor?.name}}">
+              <i class="fa fa-minus-circle del fa-2x" (click)="delTeacher(item.tutor.tutorCode)"></i>
+              <div class="pic"><img src="../../../../assets/img/teacher.png" alt=""></div>
+              <p>{{item.tutor?.name}}</p>
+            </li>
+          </ul>
+          <p *ngIf="AssistantDetail.assistantTutorses.length === 0">{{'assistant.bandTeacher.noBand'|translate}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

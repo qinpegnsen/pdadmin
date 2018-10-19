@@ -1,0 +1,85 @@
+.waitBand{
+  line-height: 35px;
+}
+.select-course-type {
+  position: inherit;
+}
+
+.select-course-type .type-info {
+  position: absolute;
+  width: 238px;
+  border: 1px solid #bdc7ca;
+  box-shadow: 0 0 8px #bdc7ca;
+  background: white;
+  z-index: 999;
+  max-height: 280px;
+  overflow-y:scroll;
+}
+.select-course-type .type-info button{
+  border: none;
+  border-bottom: 1px solid #dde6e9;
+  box-shadow:none;
+  border-radius: 0;
+  text-align: left;
+}
+.list-group-item{
+  position: relative;
+}
+.list-group-item:hover{
+  background-color: rgb(190, 239, 255);
+}
+.list-group-item .del{
+  position: absolute;
+  right: -5px;
+  top: -5px;
+  color: #e82727;
+}
+.prompt{
+  width: 100%;
+  padding: 10px 20px;
+  background-color: #cef0fb;
+  margin-bottom: 20px;
+}
+.prompt li{
+  list-style: none;
+  text-indent: 20px;
+  line-height: 30px;
+}
+.prompt li:first-child{
+  text-indent: 0px;
+}
+.dropPrompt{
+  position: static;
+  color: #ccc;
+}
+.dropPrompt i{
+  position: absolute;
+  top:50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+.panel-heading{
+  border: 1px solid #ccc;
+}
+.list-group{
+  display: inline-block;
+}
+.list-group-item{
+  position: relative;
+  border: none;
+  width: 100px;
+  height: 150px;
+  background: url("/assets/img/book.jpg") no-repeat;
+  background-size: 100% 100%;
+  text-align: center;
+  margin: 10px;
+  float: left;
+}
+.list-group-item p{
+  margin-top: 10px;
+  font-size: 14px;
+  display: inline-block;
+  transform: rotateZ(5deg) rotateY(10deg);
+  margin-left: 15px;
+  margin-top: 20px;
+}

@@ -1,0 +1,149 @@
+<!--页面头部信息 begin-->
+<div class="content-heading pb-5">
+  <div class="pull-left">
+    <p>{{'zoom.zoom.zoomTitle'|translate}}</p>
+    <p class="font12 mt-5 text-muted">{{'zoom.zoom.zoomsummary'|translate}}</p>
+  </div>
+  <div class="clear"></div>
+</div>
+<!--页面头部信息 end-->
+
+<!--搜索 begin-->
+<div class="panel p">
+  <form class="form-validate form-horizontal" novalidate #zoomForm="ngForm" (ngSubmit)="addZoom(zoomForm)">
+    <fieldset class="mb-5 pb-5 col-md-6 col-xs-6">
+      <div class="form-group">
+        <label class="col-md-4 control-label">hostId</label>
+        <div class="col-md-7">
+          <input class="form-control" type="text" name="hostId" required placeholder="{{'zoom.zoom.hostIdTitle'|translate}}" ngModel/>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset class="mb-5 pb-5 col-md-6 col-xs-6">
+      <div class="form-group">
+        <label class="col-md-4 control-label">apiKey</label>
+        <div class="col-md-7">
+          <input class="form-control" type="text" name="apiKey" required placeholder="{{'zoom.zoom.apiKeyTitle'|translate}}" ngModel/>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset class="mb-5 pb-5 col-md-6 col-xs-6">
+      <div class="form-group">
+        <label class="col-md-4 control-label">apiSecret</label>
+        <div class="col-md-7">
+          <input class="form-control" type="text" name="apiSecret" required placeholder="{{'zoom.zoom.apiSecretTitle'|translate}}" ngModel/>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset class="mb-5 pb-5 col-md-6 col-xs-6">
+      <div class="form-group">
+        <label class="col-md-4 control-label">{{'zoom.zoom.zoomLogin'|translate}}</label>
+        <div class="col-md-7">
+          <input class="form-control" type="text" name="zoomLogin" required placeholder="{{'zoom.zoom.zoomLoginTitle'|translate}}" ngModel/>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset class="mb-5 pb-5 col-xs-12 pl0 pr0">
+      <div class=" col-md-6 col-xs-6">
+        <div class="form-group">
+          <label class="col-md-4 control-label">{{'zoom.zoom.zoomLoginPassword'|translate}}</label>
+          <div class="col-md-7">
+            <input class="form-control" type="text" name="zoomLoginPassword" required placeholder="{{'zoom.zoom.zoomLoginPasswordTitle'|translate}}" ngModel/>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    <button class="btn btn-info pull-right" type="submit"><i class="mr fa fa-plus"></i>{{'zoom.zoom.add'|translate}}</button>
+    <div class="clear"></div>
+  </form>
+</div>
+<!--搜索 end-->
+
+
+<div class="panel panel-default table-mbl">
+  <div class="panel-body">
+    <table class="table table-striped" #zoomData="rzhDataTable" [rzhData]="zoomList">
+      <!--表格表头 Begin-->
+      <thead>
+      <tr>
+        <th style="width: 5%"  class="text-center">
+          <span by="number">{{'zoom.zoom.number'|translate}}</span>
+        </th>
+        <th style="width: 15%">
+          <span by="hostId">{{'zoom.zoom.hostId'|translate}}</span>
+        </th>
+        <th style="width: 15%">
+          <span by="apiKey">{{'zoom.zoom.apiKey'|translate}}</span>
+        </th>
+        <th style="width: 15%">
+          <span by="apiSecret">{{'zoom.zoom.apiSecret'|translate}}</span>
+        </th>
+        <th style="width: 15%">
+          <span by="zoomLogin">{{'zoom.zoom.zoomLogin'|translate}}</span>
+        </th>
+        <th style="width: 15%">
+          <span by="zoomLoginPassword">{{'zoom.zoom.zoomLoginPassword'|translate}}</span>
+        </th>
+        <th style="width: 5%" class="text-center">
+          <span by="state">{{'zoom.zoom.state'|translate}}</span>
+        </th>
+        <th style="width: 15%" class="text-center">
+          <span by="operation">{{'zoom.zoom.operation'|translate}}</span>
+        </th>
+      </tr>
+      </thead>
+      <!--表格表头 End-->
+      <!--表格主体信息 Begin-->
+      <tbody>
+      <tr *ngFor="let zoom of zoomList;let i = index">
+        <td class="text-center">{{i+1}}</td>
+        <td *ngIf="zoom.set; else hostIdBox">
+          <input class="form-control" type="text" name="hostId" #hostId="ngModel" [(ngModel)]="zoom.clone.hostId"
+            placeholder="{{'zoom.zoom.hostIdTitle'|translate}}"/>
+        </td>
+        <template #hostIdBox><td>{{zoom.hostId || "null"}}</td></template>
+        <td *ngIf="zoom.set; else apiKeyBox">
+          <input class="form-control" type="text" name="apiKey" #apiKey="ngModel" [(ngModel)]="zoom.clone.apiKey"
+            placeholder="{{'zoom.zoom.apiKeyTitle'|translate}}"/>
+        </td>
+        <template #apiKeyBox><td>{{zoom.apiKey || "null"}}</td></template>
+        <td *ngIf="zoom.set; else apiSecretBox">
+          <input class="form-control" type="text" name="apiSecret" #apiSecret="ngModel" [(ngModel)]="zoom.clone.apiSecret"
+            placeholder="{{'zoom.zoom.apiSecretTitle'|translate}}"/>
+        </td>
+        <template #apiSecretBox><td>{{zoom.apiSecret || "null"}}</td></template>
+        <td *ngIf="zoom.set; else zoomLoginBox">
+          <input class="form-control" type="text" name="zoomLogin" #zoomLogin="ngModel" [(ngModel)]="zoom.clone.zoomLogin"
+            placeholder="{{'zoom.zoom.zoomLoginTitle'|translate}}"/>
+        </td>
+        <template #zoomLoginBox><td>{{zoom.zoomLogin || "null"}}</td></template>
+        <td *ngIf="zoom.set; else zoomLoginPasswordBox">
+          <input class="form-control" type="text" name="zoomLoginPassword" #zoomLoginPassword="ngModel" [(ngModel)]="zoom.clone.zoomLoginPassword"
+            placeholder="{{'zoom.zoom.zoomLoginPassword'|translate}}"/>
+        </td>
+        <template #zoomLoginPasswordBox><td>{{zoom.zoomLoginPassword || "null"}}</td></template>
+        <td class="text-center">
+          <div class="circle circle-lg"
+            [ngClass]="{
+              'circle-success':zoom.state == 'Free',
+              'circle-danger':zoom.state == 'Used',
+              'circle-muted':zoom.state == 'Void'
+             }"
+            tooltip="{{zoom.state}}"></div>
+        </td>
+        <td *ngIf="zoom.set; else btnBox" class="text-center">
+          <button class="mb-sm btn btn-success" type="button" (click)="modifyZoom(zoom)"><i class="fa fa-check"></i></button>
+          <button class="mb-sm btn btn-danger" type="button" (click)="noSet(zoom)"><i class="fa fa-times"></i></button>
+        </td>
+        <template #btnBox>
+          <td class="text-center">
+            <button class="mb-sm btn btn-primary" type="button" (click)="set(zoom)"><i class="fa fa-edit"></i></button>
+            <button class="mb-sm btn btn-danger" type="button" (click)="delZoom(zoom.zoomCode)"><i class="fa fa-trash"></i></button>
+          </td>
+        </template>
+      </tr>
+      </tbody>
+      <!--表格主体信息 End-->
+    </table>
+  </div>
+</div>

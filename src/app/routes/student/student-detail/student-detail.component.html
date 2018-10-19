@@ -1,0 +1,287 @@
+<!--学生详情头部 begin-->
+<div class="content-heading">
+  {{'student.studentDetail.studentDetail'|translate}}
+  <button class="btn btn-warning pull-right" (click)="goBack()"><i class="fa fa-reply-all mr"></i>{{'student.studentDetail.back'|translate}}
+  </button>
+</div>
+<!--学生详情头部 end-->
+<!--学生详情信息 begin-->
+<div class="panel panel-default">
+  <div class="panel-body">
+    <div class="row">
+      <!--人物信息 begin-->
+      <div class="col-xs-12">
+        <p class="lead bb font18 text-info"><i class="fa fa-users mr-5"></i>{{'student.studentDetail.peopleInfo'|translate}}
+        </p>
+        <div class="p-20">
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">{{'student.studentDetail.lastName'|translate}}:</div>
+            <div class="col-xs-8">
+              <strong>{{studentData.lastName}}</strong>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">{{'student.studentDetail.firstName'|translate}}:</div>
+            <div class="col-xs-8">
+              <strong>{{studentData.firstName}}</strong>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">中文姓名:</div>
+            <div class="col-xs-8">
+              <strong>{{studentData.chineseName|| '暂无信息'}}</strong>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">是否学习过汉语:</div>
+            <div class="col-xs-8">
+              <strong>{{studentData.study || '暂无信息'}}</strong>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">中文学习背景:</div>
+            <div class="col-xs-8">
+              <ng-container *ngFor="let item of stringToJson(studentData.eduBackGround)">
+                <strong style="display: block;" *ngIf="item">{{item}}</strong>
+              </ng-container>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">{{'student.studentDetail.nationality'|translate}}:</div>
+            <div class="col-xs-8">
+              <strong>{{studentData.nationality || '暂无信息'}}</strong>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">{{'student.studentDetail.nativeLanguage'|translate}}:</div>
+            <div class="col-xs-8">
+              <strong>{{studentData.nativeLanguage || '暂无信息'}}</strong>
+            </div>
+          </div>
+          <!--<div class="form-group col-md-6">-->
+          <!--<div class="col-xs-4">{{'student.studentDetail.country'|translate}}:</div>-->
+          <!--<div class="col-xs-8">-->
+          <!--<strong>{{studentData.countryCode || '暂无信息'}}</strong>-->
+          <!--</div>-->
+          <!--</div>-->
+
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">{{'student.studentDetail.state'|translate}}:</div>
+            <div class="col-xs-8">
+              <strong>{{studentData.state|state:1017}}</strong>
+            </div>
+          </div>
+
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">{{'student.studentDetail.sex'|translate}}:</div>
+            <div class="col-xs-8">
+              <strong>{{studentData.sex || '暂无信息'}}</strong>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">{{'student.studentDetail.age'|translate}}:</div>
+            <div class="col-xs-8">
+              <strong>{{studentData.ageRange || '暂无信息'}}</strong>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">监护人姓名:</div>
+            <div class="col-xs-8">
+              <strong>{{studentData.guardianName || '暂无信息'}}</strong>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">监护人email:</div>
+            <div class="col-xs-8">
+              <strong>{{studentData.guardianEmail || '暂无信息'}}</strong>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">监护人联系方式:</div>
+            <div class="col-xs-8">
+              <strong>{{studentData.guardianPhone || '暂无信息'}}</strong>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">学习目标:</div>
+            <div class="col-xs-8">
+              <!--<ng-container *ngFor="let item of stringToJson(studentData.studyGoal)">-->
+              <strong style="display: block">{{studentData.studyGoal ||'暂无信息' }}</strong>
+              <!--</ng-container>-->
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">当前状况:</div>
+            <div class="col-xs-8">
+              <strong>{{studentData.currentStatus || '暂无信息'}}</strong>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">学校名字:</div>
+            <div class="col-xs-8">
+              <strong>{{studentData.schoolName || '暂无信息'}}</strong>
+            </div>
+          </div>
+
+
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">学习年数:</div>
+            <div class="col-xs-8">
+              <strong>{{studentData.learningYear || '暂无信息'}}</strong>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">希望加强技能:</div>
+            <div class="col-xs-8">
+              <ng-container *ngFor="let item of stringToJson(studentData.skills)">
+                <strong style="display: block" *ngIf="item">{{item}}</strong>
+              </ng-container>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">学习类型:</div>
+            <div class="col-xs-8">
+              <strong>{{studentData.wantToLearn || '暂无信息'}}</strong>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">针对AP Chinese，我打算参加：</div>
+            <div class="col-xs-8">
+              <strong>{{studentData.plan || '暂无信息'}}</strong>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">是否打算参加AP中文测验:</div>
+            <div class="col-xs-8">
+              <strong>{{studentData.isExam || '暂无信息'}}</strong>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">针对一般课程，我打算安排：</div>
+            <div class="col-xs-8">
+              <ng-container *ngFor="let item of stringToJson(studentData.coachPlan)">
+                <strong style="display: block" *ngIf="item">{{item}}</strong>
+              </ng-container>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">{{'student.studentDetail.createTime'|translate}}:</div>
+            <div class="col-xs-8">
+              <strong>{{studentData.createTime}}</strong>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">是否有学习写/打汉字的需求？</div>
+            <div class="col-xs-8">
+              <strong>{{studentData.isNeedWrite || '暂无信息'}}</strong>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">从哪里知道的ponddy:</div>
+            <div class="col-xs-8">
+              <strong>{{studentData.underStandWay || '暂无信息'}}</strong>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">{{'student.studentDetail.email'|translate}}:</div>
+            <div class="col-xs-8">
+              <strong>{{studentData.email || '暂无信息'}}</strong>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">{{'student.studentDetail.timeZone'|translate}}:</div>
+            <div class="col-xs-8">
+              <strong>{{studentData.timeZone || '暂无信息'}}</strong>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">优惠码:</div>
+            <div class="col-xs-8">
+              <strong>{{studentData.promoCode || '暂无信息'}}</strong>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <!--人物信息 end-->
+      <div class="col-xs-12">
+        <p class="lead bb font18 text-info">
+          <i class="fa fa-comment mr-5"></i>{{'student.studentDetail.courseHour'|translate}}
+        </p>
+        <div class="p-20">
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">{{'student.studentDetail.courseHourNum'|translate}}:</div>
+            <div class="col-xs-8">
+              <strong>{{(studentData.courseHour && studentData.courseHour.courseHour) || '暂无信息'}}</strong>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">{{'student.studentDetail.courseHourEnd'|translate}}:</div>
+            <div class="col-xs-8">
+              <strong>{{(studentData.courseHour && studentData.courseHour.endTime|moment:'YYYY-MM-DD HH:mm') ||
+                '暂无信息'}}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12">
+        <p class="lead bb font18 text-info">
+          <i class="fa fa-comment mr-5"></i>{{'student.studentDetail.courseHourStage'|translate}}
+        </p>
+        <div class="p-20">
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">{{'student.studentDetail.courseHourNum'|translate}}:</div>
+            <div class="col-xs-8">
+              <strong>{{(studentData.courseHourStage && studentData.courseHourStage.courseHour) || '暂无信息'}}</strong>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">{{'student.studentDetail.courseHourEnd'|translate}}:</div>
+            <div class="col-xs-8">
+              <strong>{{(studentData.courseHourStage && studentData.courseHourStage.endTime|moment:'YYYY-MM-DD HH:mm')
+                || '暂无信息'}}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12">
+        <p class="lead bb font18 text-info">
+          <i class="fa fa-comment mr-5"></i>{{'student.studentDetail.courseHourShareStudent'|translate}}
+        </p>
+        <div class="p-20">
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">{{'student.studentDetail.courseHourNum'|translate}}:</div>
+            <div class="col-xs-8">
+              <strong>{{(studentData.courseHourShareStudent && (studentData.courseHourShareStudent.upperLimit -
+                studentData.courseHourShareStudent.usedHours)) || '暂无信息'}}</strong>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">{{'student.studentDetail.courseHourEnd'|translate}}:</div>
+            <div class="col-xs-8">
+              <strong>{{(studentData.courseHourShareStudent &&
+                studentData.courseHourShareStudent.courseHourShare.endTime|moment:'YYYY-MM-DD HH:mm') ||
+                '暂无信息'}}</strong>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="col-xs-4">{{'student.studentDetail.source'|translate}}:</div>
+            <div class="col-xs-8">
+              <strong>{{(studentData.courseHourShareStudent && studentData.courseHourShareStudent.sharedStudentName) ||
+                '暂无信息'}}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--预约留言 begin-->
+      <div class="col-xs-12">
+        <p class="lead bb font18 text-info">
+          <i class="fa fa-comment mr-5"></i>{{'student.studentDetail.introduction'|translate}}
+        </p>
+        <p class="introduction">{{studentData.introduction || '暂无信息'}}</p>
+      </div>
+      <!--预约留言 end-->
+    </div>
+  </div>
+</div>
+<!--学生详情信息 end-->

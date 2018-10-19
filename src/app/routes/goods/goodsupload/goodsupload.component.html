@@ -1,0 +1,68 @@
+<div class="panel p">
+  <form class="form-validate form-horizontal" style="height: 100%" #addLimitForm="ngForm" (ngSubmit)="toUpload()">
+    <div class="panel-default">
+      <div class="panel-body">
+        <fieldset>
+          <p class="pull-right label label-info ng-binding ng-scope" *ngIf="uploader?.queue?.length">{{'goods.goodsupload.fileNumber'|translate}}: {{ uploader?.queue?.length }}</p>
+          <h4 class="page-header mt0 text-warning"><i class="icon-cloud-upload mr"></i>{{'goods.goodsupload.uploadPic'|translate}} </h4>
+          <table class="table">
+            <thead>
+            <tr>
+              <th width="50%">{{'goods.goodsupload.fileName'|translate}}</th>
+              <th>{{'goods.goodsupload.opp'|translate}}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of uploader.queue">
+              <td><strong>{{ item?.file?.name }}</strong></td>
+              <td nowrap>
+                <button type="button" class="btn btn-warning btn-xs" (click)="item.cancel()" [disabled]="!item.isUploading">
+                  <span class="icon-close mr"></span> {{'goods.goodsupload.cancel'|translate}}
+                </button>
+                <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
+                  <span class="icon-trash mr"></span> {{'goods.goodsupload.delete'|translate}}
+                </button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <div class="mt-20">
+            <div>
+              <i class="icon-clock mr-5"></i>{{'goods.goodsupload.progress'|translate}}:
+              <div class="progress" style="">
+                <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+              </div>
+            </div>
+            <div for="file1" class="file-upload pull-left mr-5">
+              <button type="button" class="btn btn-info btn-s"><i class="icon-cloud-upload mr"></i>{{'goods.goodsupload.selectFile'|translate}}</button>
+              <!--多选-->
+              <!--<input id="file1" type="file" ng2FileSelect [uploader]="uploader" multiple/>-->
+              <input id="file1" type="file" ng2FileSelect [uploader]="uploader"/>
+            </div>
+            <button type="button" class="btn btn-warning btn-s" (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
+              <span class="icon-close mr"></span>{{'goods.goodsupload.allCancel'|translate}}
+            </button>
+            <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+              <span class="icon-trash mr"></span>{{'goods.goodsupload.allDelete'|translate}}
+            </button>
+          </div>
+        </fieldset>
+        <!--上传组件 end-->
+      </div>
+
+      <!--操作按钮 begin-->
+      <div class="pull-right">
+        <!--<button class="ml btn btn-default mr pull-left" (click)="cancel()" type="button">取消</button>-->
+        <!--<button class="ml btn btn-info pull-left" type="submit" [disabled]="!addLimitForm.form.valid">提交信息</button>-->
+
+        <button type="button" (click)="cancel()" class="btn btn-warning mr">
+          <i class="fa fa-close mr-5"></i>{{'goods.goodsupload.close'|translate}}
+        </button>
+        <button class="btn btn-labeled btn-success">
+          <span class="btn-label"><i class="icon-check"></i></span>{{'goods.goodsupload.submit'|translate}}</button>
+      </div>
+      <!--操作按钮 end-->
+      <div class="clear"></div>
+    </div>
+  </form>
+</div>

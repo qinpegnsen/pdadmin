@@ -1,0 +1,98 @@
+.goods-promotion-type-success{
+  border:1px solid #27c24c;
+  padding: 1px 3px;
+  color: #27c24c;
+  border-radius: 2px;
+}
+.goods-promotion-type-pink{
+  border:1px solid #f532e5;
+  padding: 1px 3px;
+  color: #f532e5;
+  border-radius: 2px;
+}
+
+@media (min-width: 768px) {
+  .time-div {
+    margin: 0 20px 20px;
+    padding: 10px 15px;
+  }
+}
+
+@media (max-width: 1170px) {
+  .goods-data{
+    overflow-x: scroll;
+  }
+  .goods-data table{
+    width: 1000px;
+  }
+}
+
+@media (max-width: 970px) {
+  .goods-data{
+    margin-left: -15px;
+  }
+}
+
+rzhbootstrappaginator .pagination{
+  margin: 0 !important;
+}
+
+
+.child-table ul{
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+.child-table ul li{
+  list-style: none;
+  float: left;
+  min-height: 35px;
+  line-height: 35px;
+}
+.child-table tbody tr td{
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.list-item{
+  border-bottom: 1px dashed #eee;
+  padding: 10px 15px;
+}
+.list-item.select{
+  background: rgba(0, 113, 198, 0.2);
+}
+.list-item.select:hover{
+  background: rgba(0, 113, 198, 0.2);
+}
+.list-item:hover{
+  background: rgba(58, 81, 76, 0.2);
+}
+.list-item:last-child{
+  border-bottom: none;
+}
+
+.ng-valid[required], .ng-valid.required  {
+  border-left: 5px solid #42A948; /* green */
+}
+
+.ng-invalid:not(form)  {
+  border-left: 5px solid #a94442; /* red */
+}
+
+.recharge-lyout{
+  position: absolute;
+  width: 100%;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 9999;
+  top: 0;
+  left:0;
+  bottom: 0;
+}
+.recharge-box{
+  min-width: 500px;
+  height: auto;
+  position: absolute;
+  top: 50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+}

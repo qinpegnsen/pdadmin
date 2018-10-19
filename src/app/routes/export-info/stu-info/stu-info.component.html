@@ -1,0 +1,105 @@
+<!--页面头部信息 begin-->
+<div class="content-heading pb-5">
+  <div class="pull-left">
+    <p>{{'export.student.title'|translate}}</p>
+    <p class="font12 mt-5 text-muted">{{'export.student.titleInfo'|translate}}</p>
+  </div>
+  <div class="clear"></div>
+</div>
+<!--页面头部信息 end-->
+
+<!--搜索 begin-->
+<div class="panel p">
+  <fieldset class="mb-5 pb-5">
+    <label class="control-label col-sm-2 height-35 text-right">{{'export.student.student'|translate}}：</label>
+    <div class="inline col-sm-2">
+      <select class="form-control" [(ngModel)]="search.stuCode">
+        <option *ngFor="let item of stuList" value="{{item.studentCode}}">{{item.name}}</option>
+      </select>
+    </div>
+    <label class="col-sm-2 control-label height-35 text-right">{{'export.student.course'|translate}}：</label>
+    <div class="col-sm-2">
+      <select class="form-control"
+              [(ngModel)]="search.courseCode">
+        <option *ngFor="let course of courseData" value="{{course.courseCode}}">
+          {{course.course}}
+        </option>
+      </select>
+    </div>
+    <label class="col-sm-2 control-label height-35 text-right">{{'export.student.stuState'|translate}}：</label>
+    <div class="col-sm-2 pr0">
+      <select class="form-control" name="state" [(ngModel)]="search.state" ngModel>
+        <option *ngFor="let state of stateList" value="{{state.key}}">{{state.val}}</option>
+      </select>
+    </div>
+  </fieldset>
+  <fieldset class="mb-5 pb-5">
+    <label class="col-sm-2 control-label height-35 text-right">{{'export.teacher.date'|translate}}：</label>
+    <div class="col-sm-2">
+      <input class="form-control" [(ngModel)]="search.createTimeBegin" type="date"
+      />
+    </div>
+    <div class="pull-left">
+      —
+    </div>
+    <div class="col-sm-2">
+      <input class="form-control" [(ngModel)]="search.createTimeEnd" type="date"
+      />
+    </div>
+  </fieldset>
+  <button class="btn btn-purple pull-right mr-5" (click)="export()"><i class="mr fa fa fa-file-excel-o "></i>{{'export.teacher.exportInfo'|translate}}
+  </button>
+  <button class="btn btn-info pull-right mr-5" (click)="searchInfo()"><i class="mr icon-magnifier"></i>{{'export.teacher.search'|translate}}
+  </button>
+  <button class="btn btn-warning pull-right mr-5" (click)="clearInfo()"><i class="mr icon-trash"></i>{{'timetable.reset'|translate}}
+  </button>
+  <div class="clear"></div>
+</div>
+<!--搜索 end-->
+
+<!--信息列表 begin-->
+<div class="panel panel-default table-mbl">
+  <table class="table table-striped" #dataTable="rzhDataTable" [rzhData]="data" (pageChange)="getData($event)">
+    <thead>
+    <tr>
+      <th class="w10  unselectable text-center">{{'export.student.studentName'|translate}}</th>
+      <th class="w10  unselectable text-center">{{'export.student.teacherName'|translate}}</th>
+      <th class="w10  unselectable text-center">教师实名</th>
+      <th class="w20  unselectable text-center">{{'export.student.courseTime'|translate}}</th>
+      <th class="w15  unselectable text-center">{{'export.student.course'|translate}}</th>
+      <th class="w10  unselectable text-center">{{'export.student.stuState'|translate}}</th>
+      <th class="w25  unselectable text-center">{{'export.student.studentRemark'|translate}}</th>
+    </thead>
+    <tbody>
+    <tr class="text-center" *ngFor="let item of dataTable.data;let i = index">
+      <td>{{item.studentName}}</td>
+      <td>{{item.tutorName}}</td>
+      <td>{{item.eName}}</td>
+      <td>{{item.courseTimeStr | split}}</td>
+      <td>{{item.courseName}}</td>
+      <td>{{item.state}}</td>
+      <td *ngIf="item.feedback" class="breakAll">{{item.feedback}}</td>
+      <td *ngIf="!item.feedback">-</td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+      <td colspan="10">
+        <div class="col-sm-5">
+          <div class="text-muted">
+            <strong>{{'msgorder.msgorder.No'|translate}} {{data.genStartRow()}} {{'msgorder.msgorder.to'|translate}}
+              {{data.genEndRow()}} {{'msgorder.msgorder.strip'|translate}}，{{'msgorder.msgorder.row'|translate}}
+              {{data.totalRow}}{{'msgorder.msgorder.strip'|translate}}</strong>
+          </div>
+        </div>
+        <div class="col-sm-7">
+          <div class="pull-right">
+            <rzhBootstrapPaginator></rzhBootstrapPaginator>
+          </div>
+        </div>
+      </td>
+    </tr>
+    </tfoot>
+  </table>
+</div>
+<!--信息列表 end-->

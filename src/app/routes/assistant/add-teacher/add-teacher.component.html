@@ -1,0 +1,152 @@
+<!--右侧添加老师 Begin-->
+<div class="rightpage" [class.operationpage-open]="isOpen">
+  <!--右侧添加老师表单 Begin-->
+  <form class="form-validate form-horizontal" novalidate #addTeacher="ngForm" (ngSubmit)="onSubmit(addTeacher)"
+    style="height: 100%">
+    <div class="panel-default">
+      <!--表单头部 Begin-->
+      <div class="addTitle">
+        <h3 class="panel-title">{{'assistant.addTeacher.addTeacher'|translate}}</h3>
+      </div>
+      <!--表单头部 End-->
+      <!--表单主体 Begin-->
+      <div class="panel-body">
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">{{'assistant.addTeacher.name'|translate}}</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" name="name" maxlength="64" required #name="ngModel" ngModel
+                placeholder="{{'assistant.addTeacher.nameTitle'|translate}}"/>
+            </div>
+          </div>
+          <div class="col-sm-8 pull-right text-danger" [hidden]="name.valid || name.pristine">
+            {{'assistant.addTeacher.nameTitle'|translate}}
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">{{'assistant.addTeacher.enname'|translate}}</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" name="eName" maxlength="64" required #eName="ngModel" ngModel
+                     placeholder="{{'assistant.addTeacher.ennameTitle'|translate}}"/>
+            </div>
+          </div>
+          <div class="col-sm-8 pull-right text-danger" [hidden]="eName.valid || eName.pristine">
+            {{'assistant.addTeacher.ennameTitle'|translate}}
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">{{'assistant.addTeacher.phone'|translate}}</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" name="phone" minlength="6" maxlength="16" required #phone="ngModel"
+                ngModel placeholder="{{'assistant.addTeacher.phoneTitle'|translate}}" [pattern]="patterns.phone"/>
+            </div>
+          </div>
+          <div [hidden]="phone.valid || phone.pristine" class="col-sm-8 pull-right text-danger">
+            {{'assistant.addTeacher.phoneTitle'|translate}}
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">{{'assistant.addTeacher.email'|translate}}</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" required name="email" maxlength="256" [pattern]="patterns.email" #email="ngModel"
+                ngModel placeholder="{{'assistant.addTeacher.emailTitle'|translate}}"/>
+            </div>
+          </div>
+          <div [hidden]="email.valid || email.pristine" class="col-sm-8 pull-right text-danger">
+            {{'assistant.addTeacher.emailTitle'|translate}}
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">{{'assistant.addTeacher.sex'|translate}}</label>
+            <div class="col-sm-7">
+              <select class="form-control" name="sex" ngModel>
+                <option *ngFor="let state of Gender" value="{{state.key}}">{{state.val}}</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+        <!--<fieldset>-->
+          <!--<div class="form-group">-->
+            <!--<label class="col-sm-4 control-label">{{'assistant.addTeacher.age'|translate}}</label>-->
+            <!--<div class="col-sm-7">-->
+              <!--<input class="form-control" type="number" min="1" name="age" #age="ngModel" ngModel placeholder="{{'assistant.addTeacher.ageTitle'|translate}}"/>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</fieldset>-->
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">{{'assistant.addTeacher.countryCode'|translate}}</label>
+            <div class="col-sm-7">
+              <select class="form-control" name="countryCode" required #countryCode="ngModel" ngModel>
+                <option *ngFor="let country of countryList" value="{{country.code}}">{{country.country}}</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">{{'assistant.addTeacher.nativeLanguage'|translate}}</label>
+            <div class="col-sm-7">
+              <!--<input class="form-control" type="text" name="nativeLanguage" required #nativeLanguage="ngModel" ngModel-->
+                <!--placeholder="{{'assistant.addTeacher.nativeLanguageTitle'|translate}}"/>-->
+              <select class="form-control" name="nativeLanguage" required ngModel>
+                <option *ngFor="let item of nativeLanguageList" value="{{item.key}}">{{item.val}}</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">{{'assistant.addTeacher.timezone'|translate}}</label>
+            <div class="col-sm-7">
+              <select class="form-control" name="timeZone" required ngModel>
+                <option *ngFor="let item of timezones" value="{{item.zoneId}}">{{item.timezone}}</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+        <div class="form-group">
+          <label class="col-sm-4 control-label">{{'assistant.addTeacher.isAssess'|translate}}</label>
+          <div class="col-sm-7">
+            <label class="checkbox-inline c-checkbox">
+              <input type="checkbox" value="isAssess" name="isAssess" ngModel/>
+              <span class="fa fa-check"></span>{{'assistant.addTeacher.assess'|translate}}</label>
+          </div>
+        </div>
+      </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">{{'assistant.addTeacher.isConsult'|translate}}</label>
+            <div class="col-sm-7">
+              <label class="checkbox-inline c-checkbox">
+                <input type="checkbox" value="isConsult" name="isConsult" ngModel/>
+                <span class="fa fa-check"></span>{{'assistant.addTeacher.consult'|translate}}</label>
+            </div>
+          </div>
+        </fieldset>
+        <!--<fieldset>-->
+          <!--<div class="form-group">-->
+            <!--<label class="col-sm-4 control-label">{{'assistant.addTeacher.introduction'|translate}}</label>-->
+            <!--<div class="col-sm-7">-->
+              <!--<textarea class="form-control"  row="4" name="introduction" #introduction="ngModel"  ngModel placeholder="{{'assistant.addTeacher.introductionTitle'|translate}}"></textarea>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</fieldset>-->
+      </div>
+      <!--表单主体 End-->
+      <!--表单底部Btn Begin-->
+      <div class="panel-footer text-center pb overflow w100" style="position: absolute;width: 100%;bottom:0;">
+        <button class="ml btn btn-default mr pull-left" type="button" (click)="cancelAdd()">{{'assistant.addTeacher.cancel'|translate}}</button>
+        <button class="ml btn btn-info pull-left" type="submit">{{'assistant.addTeacher.add'|translate}}</button>
+      </div>
+      <!--表单底部Btn End-->
+    </div>
+  </form>
+  <!--右侧添加老师表单 End-->
+</div>
+<!--右侧添加老师 End-->

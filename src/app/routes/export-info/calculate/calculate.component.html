@@ -1,0 +1,134 @@
+<!--页面头部信息 begin-->
+<div class="content-heading pb-5">
+  <div class="pull-left">
+    <p>{{'export.calculate.title'|translate}}</p>
+    <p class="font12 mt-5 text-muted">{{'export.calculate.titleDesc'|translate}}</p>
+  </div>
+  <div class="clear"></div>
+</div>
+<!--页面头部信息 end-->
+
+<!--搜索 begin-->
+<div class="panel p">
+  <fieldset class="mb-5 pb-5">
+    <label class="control-label col-sm-2 height-35 text-right">{{'export.teacher.teacher'|translate}}：</label>
+    <div class="inline col-sm-2">
+      <select class="form-control" [(ngModel)]="search.tutorCode">
+        <option *ngFor="let teacher of teacherList" value="{{teacher.tutorCode}}">{{teacher.eName}}({{teacher.name}})</option>
+      </select>
+    </div>
+    <label class="col-sm-2 control-label height-35 text-right">{{'export.calculate.currency'|translate}}：</label>
+    <div class="col-sm-2 pr0">
+      <select class="form-control" name="state" [(ngModel)]="search.currency" ngModel>
+        <option *ngFor="let state of currency" value="{{state.key}}">{{state.val}}</option>
+      </select>
+    </div>
+  </fieldset>
+  <fieldset class="mb-5 pb-5">
+    <label class="col-sm-2 control-label height-35 text-right">{{'export.teacher.date'|translate}}：</label>
+    <div class="col-sm-2">
+      <input class="form-control" [(ngModel)]="search.createTimeBegin" type="date" name="createTimeBegin"
+      />
+    </div>
+    <div class="pull-left">
+      —
+    </div>
+    <div class="col-sm-2">
+      <input class="form-control" [(ngModel)]="search.createTimeEnd" type="date" name="createTimeEnd"
+      />
+    </div>
+  </fieldset>
+  <button class="btn btn-purple pull-right mr-5" (click)="export()"><i class="mr fa fa fa-file-excel-o "></i>{{'export.teacher.exportInfo'|translate}}
+  </button>
+  <button class="btn btn-info pull-right mr-5" (click)="searchInfo()"><i class="mr icon-magnifier"></i>{{'export.calculate.calculate'|translate}}
+  </button>
+  <button class="btn btn-warning pull-right mr-5" (click)="clearInfo()"><i class="mr icon-trash"></i>{{'timetable.reset'|translate}}
+  </button>
+  <div class="clear"></div>
+</div>
+<!--搜索 end-->
+
+<div *ngIf="titleSwitch">
+  <h4 class="text-center">{{'export.calculate.excelTitle'|translate}} <span>（{{currencyName}}）</span></h4>
+  <h4 class="text-center" *ngIf="tutorName">{{tutorName}}({{eName}})</h4>
+  <h4 class="text-center" *ngIf="search.createTimeBegin&&search.createTimeEnd">
+    {{search.createTimeBegin}}～{{search.createTimeEnd}}</h4>
+</div>
+<!--信息列表 begin-->
+<div class="panel panel-default table-mbl"  *ngIf="titleSwitch">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th class="w15  unselectable text-center">{{'export.teacher.course'|translate}}</th>
+      <th class="w20  unselectable text-center">{{'export.teacher.courseTime'|translate}}</th>
+      <th class="w8  unselectable text-center">{{'export.calculate.courseTime'|translate}}</th>
+      <th class="w20  unselectable text-center">
+        {{'export.teacher.courseRequirement'|translate}}
+        <table class="w100">
+          <tbody>
+          <tr>
+            <td class="w25">{{'export.calculate.simply'|translate}}</td>
+            <td class="w25">{{'export.calculate.complex'|translate}}</td>
+            <td class="w25">{{'export.calculate.chinese'|translate}}</td>
+            <td class="w25">{{'export.calculate.special'|translate}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </th>
+      <th class="w7  unselectable text-center">{{'export.calculate.peopleNum'|translate}}</th>
+      <th class="w7  unselectable text-center">{{'export.calculate.topNum'|translate}}</th>
+      <th class="w7  unselectable text-center">{{'export.calculate.costType'|translate}}</th>
+      <th class="w7  unselectable text-center">{{'export.calculate.cost'|translate}}</th>
+      <th class="w7  unselectable text-center">{{'export.calculate.totalCost'|translate}}</th>
+    </thead>
+    <tbody>
+    <tr class="text-center" *ngFor="let item of listData;let i = index">
+      <td>{{item.courseName}}</td>
+      <td>{{item.courseTimeStr | split}}</td>
+      <td>{{item.courseHours}}</td>
+      <td>
+        <table class="w100">
+          <tbody>
+          <tr>
+            <ng-container *ngFor="let every of item.courseGeneralType;let i=index;">
+              <td class="w25">
+                {{every}}
+              </td>
+            </ng-container>
+          </tr>
+          </tbody>
+        </table>
+      </td>
+      <td>{{item.stuNum}}</td>
+      <td>{{item.highOpinionNum}}</td>
+      <td>{{item?.courseCalculateType|state:courseCalculateType}}</td>
+      <td>{{item.basicHourCost}}</td>
+      <td>{{item.classHourCost}}</td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr class="text-center">
+      <td [attr.colspan]="2" class="text-right myTotal">
+        {{'export.calculate.total'|translate}}
+      </td>
+      <td class="myTotal">
+        {{totalData?.courseHours}}
+      </td>
+      <td class="myTotal">
+        <table class="w100">
+          <tbody>
+          <td class="w25">{{totalData?.courseGeneralType.Simple?totalData?.courseGeneralType.Simple:0}}</td>
+          <td class="w25">{{totalData?.courseGeneralType.Complex?totalData?.courseGeneralType.Complex:0}}</td>
+          <td class="w25">{{totalData?.courseGeneralType.Chineseliterature?totalData?.courseGeneralType.Chineseliterature:0}}</td>
+          <td class="w25">{{totalData?.courseGeneralType.SpecialPeriod?totalData?.courseGeneralType.SpecialPeriod:0}}</td>
+          </tbody>
+        </table>
+      </td>
+      <td class="myTotal">{{totalData?.stuNum}}</td>
+      <td class="myTotal">{{totalData?.highOpinionNum}}</td>
+      <td [attr.colspan]="3" class="myTotal">{{'export.calculate.classHourCost'|translate}}{{totalData?.classHourCost}}</td>
+    </tr>
+    </tfoot>
+  </table>
+</div>
+<!--信息列表 end-->

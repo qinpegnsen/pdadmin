@@ -1,0 +1,70 @@
+<div class="content-heading">
+  {{'assistant.bandCourse.for'|translate}}<span class="ml-5 mr-5 text-info">{{teacherDetail.name}}</span>{{'assistant.bandCourse.bandCourse'|translate}}
+  <button class="btn btn-warning pull-right" (click)="goBack()"><i class="fa fa-reply-all mr"></i>{{'assistant.teacherDetail.back'|translate}}</button>
+</div><!--页面头部信息 end-->
+<div class="row">
+  <div class="col-sm-12">
+    <ul class="prompt">
+      <li>{{'assistant.bandCourse.promptTitle'|translate}}：</li>
+      <li>1.{{'assistant.bandCourse.prompt1'|translate}}</li>
+      <li>2.{{'assistant.bandCourse.prompt2'|translate}}</li>
+    </ul>
+  </div>
+  <div class="col-xs-12">
+    <div class="col-md-5">
+      <div class="panel panel-default">
+        <div class="panel-heading overflow">
+          <span class="waitBand">{{'assistant.bandCourse.waitBand'|translate}}</span>
+          <div class="select-course-type pull-right" >
+            <input class="form-control width238" (click)="showOrHideSelectType()" [value]="selectCourseTypeInfo"
+              placeholder="{{'assistant.bandCourse.selectCourseType'|translate}}"/>
+            <div class="type-info" *ngIf="showSelectType">
+              <div *ngFor="let info of coursesTypeList">
+                <button *ngIf="info.children.length > 0" disabled class="btn btn-default form-control">
+                  {{info.category}}
+                </button>
+                <button *ngIf="info.children.length < 1"
+                  (click)="selectCourseType(info.categoryCode,info.category)"
+                  class="btn btn-default form-control">{{info.category}}
+                </button>
+                <div *ngIf="info.children.length > 0" class="ml-15">
+                  <button *ngFor="let children of info.children"
+                    (click)="selectCourseType(children.categoryCode,info.category+' - '+children.category)"
+                    class="btn btn-default form-control">
+                    <i class="fa fa-level-up mr" style="transform: rotate(90deg);"></i>{{children.category}}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body text-center" dnd-sortable-container [sortableData]="courseList" [dropZones]="['delete-dropZone']" >
+          <ul class="list-group">
+            <li *ngFor="let item of courseList; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i" [dragData]="item" title="{{item.course}}">
+              <p>{{item.course}}</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-2 hidden-xs text-center dropPrompt">
+      <i class="fa fa-arrow-right fa-5x"></i>
+    </div>
+    <div class="col-md-5">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <span class="waitBand">{{'assistant.bandCourse.isBand'|translate}}</span>
+        </div>
+        <div class="panel-body text-center" dnd-droppable [dropZones]="['delete-dropZone']" (onDropSuccess)="bandCourse($event)">
+          <ul class="list-group" *ngIf="bandCourseList.length > 0">
+            <li *ngFor="let item of bandCourseList; let i = index" class="list-group-item" title="{{item.course.course || item.course}}">
+              <i class="fa fa-minus-circle del fa-2x" (click)="delCourse(item.course.courseCode || item.courseCode)"></i>
+              <p>{{item.course.course || item.course}}</p>
+            </li>
+          </ul>
+          <p *ngIf="bandCourseList.length === 0">{{'assistant.bandCourse.noBand'|translate}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

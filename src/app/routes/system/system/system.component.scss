@@ -1,0 +1,4 @@
+//表格中文字换行
+.table>tbody>tr>td{
+  word-break: break-all;
+}

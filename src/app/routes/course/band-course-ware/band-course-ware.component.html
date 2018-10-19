@@ -1,0 +1,74 @@
+<div class="content-heading">
+  {{'course.bandCourseWare.for'|translate}}<span class="ml-5 mr-5 text-info">{{courseData.course}}</span>{{'course.bandCourseWare.bandCourseWare'|translate}}
+  <button class="btn btn-warning pull-right" (click)="goBack()"><i class="fa fa-reply-all mr"></i>{{'assistant.teacherDetail.back'|translate}}</button>
+</div><!--页面头部信息 end-->
+<div class="row">
+  <div class="col-sm-12">
+    <ul class="prompt">
+      <li>{{'course.bandCourseWare.promptTitle'|translate}}：</li>
+      <li>1.{{'course.bandCourseWare.prompt1'|translate}}</li>
+    </ul>
+  </div>
+  <div class="col-xs-12">
+    <div class="col-md-5">
+      <div class="panel panel-default">
+        <div class="panel-heading overflow">
+          <span class="waitBand">{{'course.bandCourseWare.waitBand'|translate}}</span>
+        </div>
+        <div class="panel-body text-center" dnd-sortable-container [sortableData]="coursewares" [dropZones]="['delete-dropZone']" >
+          <ul class="list-group">
+            <li *ngFor="let item of coursewares; let i = index" class="list-group-item col-xs-6" dnd-sortable [sortableIndex]="i" [dragData]="item" title="{{item.title}}">
+              <div>
+                <div class="pic">
+                  <ng-container [ngSwitch]="item.type">
+                    <img *ngSwitchCase="'IMAGE'" src="../../../../assets/img/image.png" alt="">
+                    <img *ngSwitchCase="'DOC'" src="../../../../assets/img/doc.png" alt="">
+                    <img *ngSwitchCase="'XLS'" src="../../../../assets/img/xls.png" alt="">
+                    <img *ngSwitchCase="'PPT'" src="../../../../assets/img/ppt.png" alt="">
+                    <img *ngSwitchCase="'VIDEO'" src="../../../../assets/img/video.png" alt="">
+                    <img *ngSwitchCase="'AUDIO'" src="../../../../assets/img/audio.png" alt="">
+                    <img *ngSwitchDefault src="../../../../assets/img/image.png" alt="">
+                  </ng-container>
+                </div>
+                <span>{{item.title}}</span>
+              </div>
+
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-2 hidden-xs text-center dropPrompt">
+      <i class="fa fa-arrow-right fa-5x"></i>
+    </div>
+    <div class="col-md-5">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <span class="waitBand">{{'course.bandCourseWare.isBand'|translate}}</span>
+        </div>
+        <div class="panel-body text-center" dnd-droppable [dropZones]="['delete-dropZone']" (onDropSuccess)="bandCourseware($event)">
+          <ul class="list-group" *ngIf="courseData.courseCourseWares && courseData.courseCourseWares.length > 0">
+            <li *ngFor="let item of courseData.courseCourseWares; let i = index" class="list-group-item col-xs-6" title="{{item.courseWare.title}}">
+              <div>
+                <i class="fa fa-minus-circle del" (click)="delCourseWare(item.coursewareCode)"></i>
+                <div class="pic">
+                  <ng-container [ngSwitch]="item.courseWare.type">
+                    <img *ngSwitchCase="'IMAGE'" src="../../../../assets/img/image.png" alt="">
+                    <img *ngSwitchCase="'DOC'" src="../../../../assets/img/doc.png" alt="">
+                    <img *ngSwitchCase="'XLS'" src="../../../../assets/img/xls.png" alt="">
+                    <img *ngSwitchCase="'PPT'" src="../../../../assets/img/ppt.png" alt="">
+                    <img *ngSwitchCase="'VIDEO'" src="../../../../assets/img/video.png" alt="">
+                    <img *ngSwitchCase="'AUDIO'" src="../../../../assets/img/audio.png" alt="">
+                    <img *ngSwitchDefault src="../../../../assets/img/image.png" alt="">
+                  </ng-container>
+                </div>
+                <span>{{item.courseWare.title}}</span>
+              </div>
+            </li>
+          </ul>
+          <p *ngIf="!courseData.courseCourseWares || courseData.courseCourseWares.length === 0">{{'course.bandCourseWare.noBand'|translate}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

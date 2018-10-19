@@ -1,0 +1,107 @@
+<!--页面头部信息 begin-->
+<div class="content-heading pb-5">
+  <div class="pull-left">
+    <p>{{'course.course.creatCourse'|translate}}</p>
+    <p class="font12 mt-5 text-muted">{{'course.course.courseInfo'|translate}}</p>
+  </div>
+  <button class="btn btn-primary btn-sm pull-right mb" (click)="addCourse()"><i class="fa fa-plus mr"></i>{{'course.course.addCourse'|translate}}</button>
+  <div class="clear"></div>
+</div>
+<!--页面头部信息 end-->
+
+<!--课时类型信息 begin-->
+<div class="panel panel-default p col-md-3 node-content-wrapper-100">
+  <div class="text-right">
+    <button (click)="OpenOrClose()" class="btn btn-info"><i class="icon-wrench mr-5"></i>{{'course.course.courseType'|translate}}</button>
+  </div>
+  <hr class="mt mb"/>
+  <!--列表树信息 begin-->
+  <tree-root #tree [nodes]="nodes" [focused]="true" [options]="options">
+    <ng-template #treeNodeTemplate let-node>
+      <div class="tree-info-class">
+        <div class="pull-left mr text-info" title="{{node.data.summary}}">{{ node.data.category}}</div>
+        <span class="text-muted pull-right" style="color: red" *ngIf="node.data.state == 'Void'">（作废）</span>
+        <div class="clear"></div>
+      </div>
+    </ng-template>
+  </tree-root>
+  <!--列表树信息 end-->
+</div>
+
+<!--课时类型信息 end-->
+<div class="col-md-9 pr0">
+  <div class="panel panel-default goods-data">
+    <table class="table table-striped child-table" #dataTable="rzhDataTable" [rzhData]="courseData"
+           (pageChange)="getCourse($event)">
+      <thead>
+      <tr>
+        <th class="w7 text-center unselectable sort-num text-center">{{'course.course.number'|translate}}</th>
+        <th class="w17 unselectable">{{'course.course.course'|translate}}</th>
+        <th class="w8 unselectable">{{'course.course.type'|translate}}</th>
+        <th class="w8 unselectable">{{'course.editCourse.courseCalculateType'|translate}}</th>
+        <th class="w10 unselectable">{{'course.editCourse.requirements'|translate}}</th>
+        <th class="w10 text-center unselectable">{{'course.course.needCouresHour'|translate}}</th>
+        <th class="w5 text-center unselectable">{{'course.course.duration'|translate}}</th>
+        <th class="w5 text-center unselectable">{{'course.course.peopleNumber'|translate}}</th>
+        <th class="w7 text-center unselectable">{{'course.course.state'|translate}}</th>
+        <th class="w18 text-center unselectable">{{'course.course.opp'|translate}}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <ng-container *ngFor="let data of courseData.voList;let i = index">
+        <tr>
+          <td class="text-center w7">{{i+1}}</td>
+          <td>{{data.course}}</td>
+          <td>{{data.courseCategory.category}}</td>
+          <td>{{data.courseCalculateType |state:courseCalculateType}}</td>
+          <td>
+            <ng-container *ngFor="let item of data.courseGeneralType.split('、');let i=index;">
+              {{item | state:courseGeneralType}}<span *ngIf="i!=data.courseGeneralType.split('、').length-1">、</span>
+            </ng-container>
+          </td>
+          <td class="text-center">{{data.courseHour}}</td>
+          <td class="text-center">{{data.duration}} <span class="text-muted font12">{{'course.course.minute'|translate}}</span></td>
+          <td class="text-center">{{data.studentNum}}</td>
+          <td class="text-center">
+            <div class="circle circle-lg"
+                 [ngClass]="{'circle-success':data.state == 'Activate','circle-muted':data.state == 'Void','circle-danger':data.state == 'Delete'}"
+                 tooltip="{{data.state | state:courseStateNum}}"></div>
+          </td>
+          <td class="text-center">
+            <button class="mb-sm btn btn-primary" type="button" tooltip="Update" (click)="modifyCourse(data)"><i class="fa fa-edit"></i>
+            </button>
+            <button class="mb-sm btn btn-primary" type="button" tooltip="Adding courseware" (click)="goBand(data.courseCode)"><i class="fa fa-plus"></i>
+            </button>
+          </td>
+        </tr>
+      </ng-container>
+      </tbody>
+      <tfoot>
+      <tr>
+        <td colspan="10">
+          <div class="col-sm-5">
+            <div class="text-muted"><strong>{{'course.course.No'|translate}} {{courseData.genStartRow()}} {{'course.course.to'|translate}} {{courseData.genEndRow()}} {{'course.course.strip'|translate}}，{{'course.course.row'|translate}} {{courseData.totalRow}}
+              {{'course.course.strip'|translate}}</strong></div>
+          </div>
+          <div class="col-sm-7">
+            <div class="pull-right">
+              <rzhBootstrapPaginator></rzhBootstrapPaginator>
+            </div>
+          </div>
+        </td>
+      </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+<!--课时类型体系操作模块 begin-->
+<app-coursecat (close)="OpenOrClose()" [isOpen]="addOpen" [nodes]="nodes" (updateNodes)="getCategory()"></app-coursecat>
+<!--课时类型体系操作模块 end-->
+
+<!--添加修改课程模块 start-->
+<app-edit-course [isOpen]="courseOpen" [isAdd]="isAdd" (closeAdd)="closeAdd()" (upData)="getCourse()"></app-edit-course>
+<!--添加修改课程模块 end-->
+
+<div class="clear"></div>
+

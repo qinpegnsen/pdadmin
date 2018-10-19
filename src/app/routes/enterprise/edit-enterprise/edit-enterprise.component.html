@@ -1,0 +1,107 @@
+<div class="rightpage" [class.operationpage-open]="isOpen">
+  <form class="form-validate form-horizontal" novalidate #addEnterprise="ngForm" (ngSubmit)="onsubmit(addEnterprise)"
+    style="height: 100%">
+    <div class="panel-default">
+      <!--表单头部 Begin-->
+      <div class="addTitle panel-heading">
+        <h4>{{initData.bl ? 'Add EnterPrise' : 'Update EnterPrise'}}</h4>
+      </div>
+      <!--表单头部 End-->
+      <!--表单主体 Begin-->
+      <div class="panel-body">
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">{{'enterprise.editEnterprise.shortName'|translate}}</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" name="firstName" maxlength="6" required [pattern]="patterns.noSpace"
+                [(ngModel)]="initData.data.firstName" placeholder="{{'enterprise.editEnterprise.shortNameTitle'|translate}}"/>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">{{'enterprise.editEnterprise.name'|translate}}</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" name="lastName" required [(ngModel)]="initData.data.lastName"
+                placeholder="{{'enterprise.editEnterprise.nameTitle'|translate}}" [pattern]="patterns.noSpace"/>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset *ngIf="initData.bl">
+          <div class="form-group">
+            <label class="col-sm-4 control-label">{{'enterprise.editEnterprise.email'|translate}}</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="email" name="email" required [pattern]="patterns.email" [(ngModel)]="initData.data.email"
+                placeholder="{{'enterprise.editEnterprise.emailTitle'|translate}}" autocomplete="off"/>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset *ngIf="initData.bl">
+          <div class="form-group">
+            <label class="col-sm-4 control-label">{{'enterprise.editEnterprise.password'|translate}}</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="password" name="password"  required [pattern]="patterns.NBpassword"
+                [(ngModel)]="initData.data.password" placeholder="{{'enterprise.editEnterprise.passwordTitle'|translate}}" autocomplete="off"/>
+            </div>
+          </div>
+        </fieldset>
+        <!--<fieldset *ngIf="!initData.bl">-->
+          <!--<div class="form-group">-->
+            <!--<label class="col-sm-4 control-label">{{'enterprise.editEnterprise.age'|translate}}</label>-->
+            <!--<div class="col-sm-7">-->
+              <!--<input class="form-control" type="number" min="1" name="age" [(ngModel)]="initData.data.age"-->
+                <!--placeholder="{{'enterprise.editEnterprise.ageTitle'|translate}}"/>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</fieldset>-->
+        <fieldset *ngIf="!initData.bl">
+          <div class="form-group">
+            <label class="col-sm-4 control-label">{{'enterprise.editEnterprise.sex'|translate}}</label>
+            <div class="col-sm-7">
+              <select class="form-control" name="sex" [(ngModel)]="initData.data.sex">
+                <option *ngFor="let sex of sexs" value="{{sex.key}}">{{sex.val}}</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">{{'enterprise.editEnterprise.countryCode'|translate}}</label>
+            <div class="col-sm-7">
+              <select class="form-control" name="countryCode" required [(ngModel)]="initData.data.countryCode">
+                <option *ngFor="let country of countryList" value="{{country.key}}">{{country.val}}</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset *ngIf="initData.bl">
+          <div class="form-group">
+            <label class="col-sm-4 control-label">{{'enterprise.editEnterprise.timezone'|translate}}</label>
+            <div class="col-sm-7">
+              <select class="form-control" name="timeZone" required [(ngModel)]="initData.data.timeZone">
+                <option *ngFor="let timezone of timezones" value="{{timezone.zoneId}}">{{timezone.timezone}}</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">{{'enterprise.editEnterprise.introduction'|translate}}</label>
+            <div class="col-sm-7">
+              <textarea class="form-control" row="4" name="introduction" [(ngModel)]="initData.data.introduction"
+                placeholder="{{'enterprise.editEnterprise.introductionTitle'|translate}}"></textarea>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <!--表单主体 End-->
+      <!--表单底部 Begin-->
+      <div class="panel-footer text-center" style="position: absolute; bottom: 0;right: 0; left: 0">
+        <button class="ml btn btn-default mr pull-left" type="button" (click)="closeEnterprise()">{{'enterprise.editEnterprise.cancel'|translate}}</button>
+        <button class="ml btn btn-info pull-left" type="submit">{{initData.bl ? 'add' : 'update'}}</button>
+      </div>
+      <!--表单底部 End-->
+    </div>
+  </form>
+</div>
+

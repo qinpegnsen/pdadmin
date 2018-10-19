@@ -1,0 +1,239 @@
+<!--课时商品添加  begin-->
+<div class="panel p goods-add">
+  <div class="text-warning font16"><i class="fa fa-edit mr"></i>
+    <span
+      *ngIf="!goodsCode">{{'goods.goodsAdd.add'|translate}} {{typeName}} {{'goods.goodsAdd.goodsOfType'|translate}}</span>
+    <span *ngIf="goodsCode">{{'goods.goodsAdd.changeGoods'|translate}}</span>
+  </div>
+  <hr class="mt-5 mb"/>
+  <form class="form-validate form-horizontal" [formGroup]="valForm" (submit)="submitForm($event, valForm.value)"
+        novalidate="">
+    <fieldset>
+      <div class="form-group m">
+        <div class="col-md-6">
+          <label class="col-sm-3 control-label height-35">{{'goods.goodsAdd.goodsName'|translate}}</label>
+          <div class="col-sm-9">
+            <input class="form-control" placeholder="{{'goods.goodsAdd.goodsName'|translate}}" type="text"
+                   [(ngModel)]="datas.goodsName"
+                   formControlName="goodsName"
+                   [formControl]="valForm.controls['goodsName']"/>
+            <span class="text-danger"
+                  *ngIf="valForm.controls['goodsName'].hasError('required') && (valForm.controls['goodsName'].dirty || valForm.controls['goodsName'].touched)">{{'goods.goodsAdd.goodsNameMust'|translate}}</span>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="col-sm-3 control-label height-35">{{'goods.goodsAdd.promotionType'|translate}}</label>
+          <div class="col-sm-9">
+            <select class="form-control" formControlName="promotionType" [(ngModel)]="datas.promotionType"
+                    [formControl]="valForm.controls['promotionType']"  (change)="resetInput()">
+              <option *ngFor="let typeInfo of goodsPromotionTypeDatas" value="{{typeInfo.key}}">
+                {{typeInfo.val}}{{typeInfo.key}}
+              </option>
+            </select>
+            <span class="text-danger"
+                  *ngIf="valForm.controls['promotionType'].hasError('required') && (valForm.controls['promotionType'].dirty || valForm.controls['promotionType'].touched)">{{'goods.goodsAdd.promotionTypeMust'|translate}}</span>
+          </div>
+        </div>
+        <div class="clear"></div>
+      </div>
+      <div class="form-group m">
+        <div class="col-md-6">
+          <label class="col-sm-3 control-label height-35">{{'goods.goodsAdd.oldPrice'|translate}}</label>
+          <div class="col-sm-9">
+            <input class="form-control" placeholder="{{'goods.goodsAdd.oldPriceTitle'|translate}}" type="number"
+                   [(ngModel)]="datas.goodsPrice"
+                   formControlName="goodsPrice"
+                   [formControl]="valForm.controls['goodsPrice']"/>
+            <span class="text-danger"
+                  *ngIf="valForm.controls['goodsPrice'].hasError('required') && (valForm.controls['goodsPrice'].dirty || valForm.controls['goodsPrice'].touched)">{{'goods.goodsAdd.priceMust'|translate}}</span>
+            <span class="text-danger"
+                  *ngIf="valForm.controls['goodsPrice'].hasError('pattern') && (valForm.controls['goodsPrice'].dirty || valForm.controls['goodsPrice'].touched)">{{'goods.goodsAdd.priceTitle'|translate}}</span>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="col-sm-3 control-label height-35">{{'goods.goodsAdd.detailLink'|translate}}</label>
+          <div class="col-sm-9">
+            <input class="form-control" placeholder="{{'goods.goodsAdd.detailLink'|translate}}" type="text"
+                   [(ngModel)]="datas.detailLink"
+                   formControlName="detailLink"
+                   [formControl]="valForm.controls['detailLink']"/>
+            <span class="text-danger"
+                  *ngIf="valForm.controls['detailLink'].hasError('required') && (valForm.controls['detailLink'].dirty || valForm.controls['detailLink'].touched)">{{'goods.goodsAdd.detailLinkMust'|translate}}</span>
+          </div>
+        </div>
+        <div class="clear"></div>
+      </div>
+      <div class="form-group m">
+        <div class="col-md-6">
+          <label class="col-sm-3 control-label height-35">{{'goods.goodsAdd.courseType'|translate}}</label>
+          <div class="col-sm-9">
+            <select class="form-control" formControlName="courseHourType" [(ngModel)]="datas.courseHourType"
+                    [formControl]="valForm.controls['courseHourType']">
+              <option *ngFor="let typeInfo of courseHourTypeDatas" value="{{typeInfo.key}}">{{typeInfo.val}}
+              </option>
+            </select>
+            <span class="text-danger"
+                  *ngIf="valForm.controls['courseHourType'].hasError('required') && (valForm.controls['courseHourType'].dirty || valForm.controls['courseHourType'].touched)">{{'goods.goodsAdd.courseTypeMust'|translate}}</span>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="col-sm-3 control-label height-35">{{'goods.goodsAdd.courseNumber'|translate}}</label>
+          <div class="col-sm-9">
+            <input class="form-control" placeholder="{{'goods.goodsAdd.courseTitle'|translate}}" type="number"
+                   [(ngModel)]="datas.courseHour"
+                   formControlName="courseHour"
+                   [formControl]="valForm.controls['courseHour']"/>
+            <span class="text-danger"
+                  *ngIf="valForm.controls['courseHour'].hasError('required') && (valForm.controls['courseHour'].dirty || valForm.controls['courseHour'].touched)">{{'goods.goodsAdd.courseNumberMust'|translate}}</span>
+            <span class="text-danger"
+                  *ngIf="valForm.controls['courseHour'].hasError('pattern') && (valForm.controls['courseHour'].dirty || valForm.controls['courseHour'].touched)">{{'goods.goodsAdd.courseNumberAlert'|translate}}</span>
+          </div>
+        </div>
+        <div class="clear"></div>
+      </div>
+      <div class="form-group m">
+        <div class="col-md-6">
+          <label class="col-sm-3 control-label height-35">{{'goods.goodsAdd.startTime'|translate}}</label>
+          <div class="col-sm-9">
+            <input class="form-control" placeholder="{{'goods.goodsAdd.startTimeTitle'|translate}}" type="date"
+                   [(ngModel)]="datas.validityPeriodStartTime"
+                   formControlName="validityPeriodStartTimeString"
+                   [formControl]="valForm.controls['validityPeriodStartTimeString']"/>
+            <span class="text-danger"
+                  *ngIf="valForm.controls['validityPeriodStartTimeString'].hasError('required') && (valForm.controls['validityPeriodStartTimeString'].dirty || valForm.controls['validityPeriodStartTimeString'].touched)">{{'goods.goodsAdd.startTimeMust'|translate}}</span>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="col-sm-3 control-label height-35">{{'goods.goodsAdd.termOfValidity'|translate}}</label>
+          <div class="col-sm-9">
+            <input class="form-control" placeholder="{{'goods.goodsAdd.termOfValidityTitle'|translate}}" type="number"
+                   [(ngModel)]="datas.validityPeriod"
+                   formControlName="validityPeriod"
+                   [formControl]="valForm.controls['validityPeriod']"/>
+            <span class="text-danger"
+                  *ngIf="valForm.controls['validityPeriod'].hasError('required') && (valForm.controls['validityPeriod'].dirty || valForm.controls['validityPeriod'].touched)">{{'goods.goodsAdd.termOfValidityMust'|translate}}</span>
+            <span class="text-danger"
+                  *ngIf="valForm.controls['validityPeriod'].hasError('pattern') && (valForm.controls['validityPeriod'].dirty || valForm.controls['validityPeriod'].touched)">{{'goods.goodsAdd.termOfValidityAlert'|translate}}</span>
+          </div>
+        </div>
+        <!--优惠券 start-->
+
+        <!--优惠券 end-->
+        <!--<div class="col-md-6">-->
+        <!--<label class="col-sm-3 control-label height-35">{{'goods.goodsAdd.endTime'|translate}}</label>-->
+        <!--<div class="col-sm-9">-->
+        <!--<input class="form-control" placeholder="{{'goods.goodsAdd.endTimeTitle'|translate}}" type="date"-->
+        <!--[(ngModel)]="datas.validityPeriodEndTime"-->
+        <!--formControlName="validityPeriodEndTimeString"-->
+        <!--[formControl]="valForm.controls['validityPeriodEndTimeString']"/>-->
+        <!--<span class="text-danger"-->
+        <!--*ngIf="valForm.controls['validityPeriodEndTimeString'].hasError('required') && (valForm.controls['validityPeriodEndTimeString'].dirty || valForm.controls['validityPeriodEndTimeString'].touched)">{{'goods.goodsAdd.endTimeMust'|translate}}</span>-->
+        <!--</div>-->
+        <!--</div>-->
+        <div class="clear"></div>
+      </div>
+      <div class="form-group m">
+        <div class="col-md-6">
+          <label class="col-sm-3 control-label height-35">{{'goods.goodsAdd.timezone'|translate}}</label>
+          <div class="col-sm-9">
+            <select class="form-control" formControlName="timeZone" [(ngModel)]="datas.timeZone"
+                    [formControl]="valForm.controls['timeZone']">
+              <option *ngFor="let typeInfo of timeZones" value="{{typeInfo.zoneId}}">{{typeInfo.timezone}}
+              </option>
+            </select>
+            <span class="text-danger"
+                  *ngIf="valForm.controls['timeZone'].hasError('required') && (valForm.controls['timeZone'].dirty || valForm.controls['timeZone'].touched)">{{'goods.goodsAdd.timezoneMust'|translate}}</span>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="col-sm-3 control-label height-35">{{'goods.goodsAdd.state'|translate}}</label>
+          <div class="col-sm-9">
+            <select class="form-control" formControlName="state" [(ngModel)]="datas.state"
+                    [formControl]="valForm.controls['state']">
+              <option *ngFor="let state of goodsStateDatas" value="{{state.key}}">{{state.val}}</option>
+            </select>
+            <span class="text-danger"
+                  *ngIf="valForm.controls['state'].hasError('required') && (valForm.controls['state'].dirty || valForm.controls['state'].touched)">{{'goods.goodsAdd.stateMust'|translate}}</span>
+          </div>
+        </div>
+        <div class="clear"></div>
+      </div>
+      <div class="form-group m">
+        <div class="col-md-6" *ngIf="datas.promotionType=='Coupon'">
+          <ng-container formArrayName="couponCode">
+            <ng-container *ngFor="let item of valForm.get('couponCode').controls;let i=index;" class="mt">
+              <label class="col-sm-3 control-label height-35 mt">
+                <a href="javascript:;" style="color: red;"><i class="fa fa-minus mr-5" (click)="delProCode(i)">
+                  删除</i></a>
+                {{'goods.goodsAdd.couponCode'|translate}}
+              </label>
+              <div class="col-sm-9 mt">
+                <input class="form-control" placeholder="{{'goods.goodsAdd.couponCodeDesc'|translate}}" type="text"
+                       [formControlName]="i" maxlength="36"
+                />
+                <!--<span class="text-danger"-->
+                <!--*ngIf="valForm.controls['couponCode'].hasError('required') && (valForm.controls['couponCode'].dirty || valForm.controls['couponCode'].touched)">{{'goods.goodsAdd.couponCodeTip'|translate}}</span>-->
+              </div>
+            </ng-container>
+          </ng-container>
+        </div>
+        <div class="col-md-6">
+          <ng-container formArrayName="promotionPrice">
+            <ng-container *ngFor="let item of valForm.get('promotionPrice').controls;let i=index;" class="mt">
+              <label class="col-sm-3 control-label height-35 mt">
+                {{'goods.goodsAdd.promotionPrice'|translate}}</label>
+              <div class="col-sm-9 mt">
+                <input class="form-control" placeholder="{{'goods.goodsAdd.promotionPriceTitle'|translate}}"
+                       type="number"
+                       [formControlName]="i"
+                       [readonly]="datas.promotionType == 'Common'"/>
+                <!--<span class="text-danger"-->
+                <!--*ngIf="valForm.controls['promotionPrice'].hasError('required') && (valForm.controls['promotionPrice'].dirty || valForm.controls['promotionPrice'].touched)">{{'goods.goodsAdd.promotionPriceMust'|translate}}</span>-->
+                <!--<span class="text-danger"-->
+                <!--*ngIf="valForm.controls['promotionPrice'].hasError('pattern') && (valForm.controls['promotionPrice'].dirty || valForm.controls['promotionPrice'].touched)">{{'goods.goodsAdd.promotionPriceAlert'|translate}}</span>-->
+              </div>
+            </ng-container>
+          </ng-container>
+        </div>
+        <div class="clear"></div>
+      </div>
+      <div class="form-group m">
+        <div class="col-md-6" *ngIf="datas.promotionType=='Coupon'">
+          <label class="col-sm-3 control-label height-35"></label>
+          <div class="col-sm-9">
+                <span class="text-danger"
+                      *ngIf="valForm.controls['couponCode'].hasError('required') && (valForm.controls['couponCode'].dirty || valForm.controls['couponCode'].touched)">{{'goods.goodsAdd.couponCodeTip'|translate}}</span>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="col-sm-3 control-label height-35"></label>
+          <div class="col-sm-9">
+                <span class="text-danger"
+                      *ngIf="valForm.controls['promotionPrice'].hasError('required') && (valForm.controls['promotionPrice'].dirty || valForm.controls['promotionPrice'].touched)">{{'goods.goodsAdd.promotionPriceMust'|translate}}</span>
+            <span class="text-danger"
+                  *ngIf="valForm.controls['promotionPrice'].hasError('pattern') && (valForm.controls['promotionPrice'].dirty || valForm.controls['promotionPrice'].touched)">{{'goods.goodsAdd.promotionPriceAlert'|translate}}</span>
+          </div>
+        </div>
+        <div class="clear"></div>
+      </div>
+    </fieldset>
+    <!--<fieldset>-->
+    <!--<div id="summernote" class="summernote">-->
+    <!--<span>{{'goods.goodsAdd.advertisingWords'|translate}}</span>-->
+    <!--</div>-->
+    <!--</fieldset>-->
+    <button class="btn btn-labeled btn-success pull-right">
+      <span class="btn-label"><i class="icon-check"></i></span>{{'goods.goodsAdd.submit'|translate}}
+    </button>
+    <button type="button" *ngIf="datas.promotionType=='Coupon'" (click)="addProCode()"
+            class="btn btn-info pull-right mr">
+      <i class="fa fa-plus mr-5"></i>添加优惠券
+    </button>
+    <button type="button" (click)="cancel()" class="btn btn-warning pull-right mr">
+      <i class="fa fa-close mr-5"></i>{{'goods.goodsAdd.cancel'|translate}}
+    </button>
+
+    <div class="clear"></div>
+  </form>
+</div>
+<!--课时商品添加  begin-->

@@ -1,0 +1,125 @@
+<!--教师管理头部 Begin-->
+<div class="content-heading pb-5">
+  <div class="pull-left">
+    <p>{{'student.student.student'|translate}}</p>
+    <p class="font12 mt-5 text-muted">{{'student.student.studentInfo'|translate}}</p>
+  </div>
+  <div class="clear"></div>
+</div>
+<!--教师管理头部 End-->
+<!--搜索 begin-->
+<div class="panel p">
+  <form class="form-validate form-horizontal" novalidate #searchForm="ngForm">
+    <div class="mb-5 pb-5 col-md-4 pt pb overflow">
+      <label class="col-sm-4 control-label height-35">{{'student.student.email'|translate}}：</label>
+      <div class="col-sm-8 pr0">
+        <input class="form-control" type="text" name="email" [ngModel]="student.searchData.email"/>
+      </div>
+    </div>
+    <div class="mb-5 pb-5 col-md-4 pt pb overflow">
+      <label class="col-sm-4 control-label height-35">{{'student.student.name'|translate}}：</label>
+      <div class="col-sm-8 pr0">
+        <input class="form-control" type="text" name="name" [ngModel]="student.searchData.name"/>
+      </div>
+    </div>
+    <div class="mb-5 pb-5 col-md-4 pt pb overflow">
+      <button class="btn btn-info pull-right m0" (click)="getData(searchForm.value)"><i class="mr icon-magnifier"></i>{{'student.student.search'|translate}}</button>
+      <button class="btn btn-warning pull-right m0 mr-15" (click)="getData()"><i class="mr icon-magnifier"></i>{{'student.student.all'|translate}}</button>
+    </div>
+    <div class="clear"></div>
+  </form>
+</div>
+<!--搜索 end-->
+
+<!--信息列表 begin-->
+<div class="panel panel-default table-mbl">
+  <table class="table table-striped" #dataTable="rzhDataTable" [rzhData]="students" (pageChange)="getData(student.searchData,$event)">
+    <thead>
+    <tr>
+      <th class="w5 unselectable text-center sort-num">{{'student.student.number'|translate}}</th>
+      <th class="w20  unselectable text-center">{{'student.student.name'|translate}}</th>
+      <th class="w10  unselectable text-center">{{'student.student.sex'|translate}}</th>
+      <th class="w30  unselectable text-center">{{'student.student.email'|translate}}</th>
+      <th class="w20  unselectable text-center">{{'student.student.timeZone'|translate}}</th>
+      <th class="w5  unselectable text-center">{{'student.student.state'|translate}}</th>
+      <th class="w10  unselectable text-center">{{'student.student.opp'|translate}}</th>
+    </thead>
+    <tbody>
+    <tr class="text-center" *ngFor="let item of dataTable.data;let i = index">
+      <td class="pl">{{i+1}}</td>
+      <td>{{item.name}}</td>
+      <td>{{item.sex}}</td>
+      <td>{{item.email}}</td>
+      <td>{{item.timeZone}}</td>
+      <td>
+        <div class="circle circle-lg"
+          [ngClass]="{'circle-warning':item.state == 'Reg','circle-success':item.state == 'Activate','circle-muted':item.state == 'Frozen'}"
+          tooltip="{{item.state | state:1017}}"></div>
+      </td>
+      <td>
+        <button class="mb-sm btn-xs btn btn-primary btn-outline " (click)="goDetail(item.studentCode)">
+          <i class="fa fa-file-text-o mr-5"></i>{{'student.student.detail'|translate}}
+        </button>
+        <button class="mb-sm btn-xs btn btn-info btn-outline" (click)="payFor(item.studentCode)">
+          <i class="fa fa-file-text-o mr-5"></i>充值
+        </button>
+      </td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+      <td colspan="10">
+        <div class="col-sm-5">
+          <div class="text-muted">
+            <strong>{{'student.student.No'|translate}} {{students.genStartRow()}} {{'student.student.to'|translate}} {{students.genEndRow()}} {{'student.student.strip'|translate}}，{{'student.student.row'|translate}} {{students.totalRow}}{{'student.student.strip'|translate}}</strong>
+          </div>
+        </div>
+        <div class="col-sm-7">
+          <div class="pull-right">
+            <rzhBootstrapPaginator></rzhBootstrapPaginator>
+          </div>
+        </div>
+      </td>
+    </tr>
+    </tfoot>
+  </table>
+</div>
+<!--信息列表 end-->
+
+<!--充值弹框 start-->
+<div class="recharge-lyout" *ngIf="recharge">
+  <form class="recharge-box form-validate form-horizontal" novalidate #rechargeForm="ngForm" (ngSubmit)="onrecharge(rechargeForm)">
+    <div class="panel panel-info">
+      <div class="panel-heading">学生充值</div>
+      <div class="panel-body">
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">{{'enterprise.enterprise.courseHour'|translate}}：</label>
+            <div class="col-sm-8">
+              <input class="form-control" type="number" name="courseHour" min="1" required ngModel [pattern]="patterns.justNum" placeholder="{{'enterprise.enterprise.courseHourTitle'|translate}}"/>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">{{'enterprise.enterprise.endTime'|translate}}：</label>
+            <div class="col-sm-8">
+              <input class="form-control" type="number" name="endTime" min="1" required ngModel [pattern]="patterns.justNum" placeholder="{{'enterprise.enterprise.endTimeTitle'|translate}}"/>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset class="mb0">
+          <div class="form-group">
+            <div class="col-xs-6 text-center">
+              <button class="btn btn-default" type="reset" (click)="rechargeOnOff($event)">{{'enterprise.enterprise.cancel'|translate}}</button>
+            </div>
+            <div class="col-xs-6 text-center">
+              <button class="btn btn-info" type="submit">{{'enterprise.enterprise.submit'|translate}}</button>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+  </form>
+</div>
+<!--充值弹框 end-->
